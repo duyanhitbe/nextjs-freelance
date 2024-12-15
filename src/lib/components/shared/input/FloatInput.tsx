@@ -2,10 +2,11 @@ import { Box, defineStyle, Field, Input } from '@chakra-ui/react';
 import { PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
-	tooltip?: string;
+	value?: any;
+	onChange?: (value: any) => void;
 }>;
 
-export function FloatInput({ children, tooltip }: Props) {
+export function FloatInput({ children, value, onChange = () => {} }: Props) {
 	return (
 		<Field.Root>
 			<Box
@@ -16,6 +17,8 @@ export function FloatInput({ children, tooltip }: Props) {
 					className='peer'
 					placeholder=''
 					colorPalette='teal'
+					value={value}
+					onChange={(e) => onChange(e.target.value)}
 				/>
 				<Field.Label css={floatingStyles}>{children}</Field.Label>
 			</Box>

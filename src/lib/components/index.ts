@@ -1,6 +1,7 @@
-export * from './admin/dashboard/DashboardHeader';
-export * from './admin/dashboard/DashboardSidebar';
-export * from './admin/dashboard/SidebarItem';
+export * from './admin/dashboard/shared/DashboardHeader';
+export * from './admin/dashboard/shared/DashboardSidebar';
+export * from './admin/dashboard/shared/SidebarItem';
+export * from './admin/dashboard/user/UserTable';
 
 export * from './chakra-ui/avatar';
 export * from './chakra-ui/button';

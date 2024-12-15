@@ -1,13 +1,10 @@
-import axios from 'axios';
-import { ApiResponse, User } from '@lib/types';
+import { ApiResponse, ListUserParams, User } from '@lib/types';
+import { AxiosClientService } from '@lib/services';
 
 class UserService {
-	async find(): Promise<ApiResponse<User[]>> {
+	async find(params: ListUserParams): Promise<ApiResponse<User[]>> {
 		try {
-			const response = await axios.get<ApiResponse<User[]>>(
-				'http://localhost:3000/api/users'
-			);
-			return response.data;
+			return AxiosClientService.get<ApiResponse<User[]>>('/api/users', params);
 		} catch (error) {
 			console.log(error);
 			throw error;

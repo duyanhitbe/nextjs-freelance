@@ -14,7 +14,11 @@ export function TableData({ children, headers }: DataProps) {
 			<ChakraTable.Header>
 				<ChakraTable.Row>
 					<For each={headers}>
-						{(header) => <ChakraTable.ColumnHeader>{header}</ChakraTable.ColumnHeader>}
+						{(header) => (
+							<ChakraTable.ColumnHeader key={header}>
+								{header}
+							</ChakraTable.ColumnHeader>
+						)}
 					</For>
 				</ChakraTable.Row>
 			</ChakraTable.Header>

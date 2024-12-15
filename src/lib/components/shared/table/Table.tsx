@@ -13,7 +13,12 @@ type TableProps = PropsWithChildren;
 export function Table({ children }: TableProps) {
 	return (
 		<Container>
-			<DialogRoot size='lg'>{children}</DialogRoot>
+			<DialogRoot
+				size='lg'
+				placement='center'
+			>
+				{children}
+			</DialogRoot>
 		</Container>
 	);
 }

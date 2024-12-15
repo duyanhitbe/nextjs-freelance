@@ -2,9 +2,12 @@ import { PropsWithChildren } from 'react';
 import { Container, Flex, Grid, Text } from '@chakra-ui/react';
 import { PrimaryButton } from '@lib/components';
 
-type FilterProps = PropsWithChildren;
+type FilterProps = PropsWithChildren<{
+	onFilter?: () => void;
+	onClear?: () => void;
+}>;
 
-export function TableFilter({ children }: FilterProps) {
+export function TableFilter({ children, onFilter, onClear }: FilterProps) {
 	return (
 		<Container
 			bgColor='white'
@@ -25,10 +28,16 @@ export function TableFilter({ children }: FilterProps) {
 					<PrimaryButton
 						size='xs'
 						variant='outline'
+						onClick={onClear}
 					>
 						Làm mới
 					</PrimaryButton>
-					<PrimaryButton size='xs'>Tìm kiếm</PrimaryButton>
+					<PrimaryButton
+						size='xs'
+						onClick={onFilter}
+					>
+						Tìm kiếm
+					</PrimaryButton>
 				</Flex>
 			</Flex>
 		</Container>

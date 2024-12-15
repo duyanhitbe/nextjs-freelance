@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import '../assets/css/globals.css';
 import { PropsWithChildren } from 'react';
-import { Provider } from '@lib/components';
+import { Providers } from '@app/providers';
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -17,7 +17,7 @@ export default function RootLayout({ children }: Props) {
 			suppressHydrationWarning
 		>
 			<body>
-				<Provider>{children}</Provider>
+				<Providers>{children}</Providers>
 			</body>
 		</html>
 	);

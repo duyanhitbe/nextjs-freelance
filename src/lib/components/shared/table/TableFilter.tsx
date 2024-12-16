@@ -1,45 +1,108 @@
-import { PropsWithChildren } from 'react';
-import { Container, Flex, Grid, Text } from '@chakra-ui/react';
-import { PrimaryButton } from '@lib/components';
+'use client';
+import { ChangeEvent, PropsWithChildren, useContext } from 'react';
+import { Container, Flex, For, Grid, Text } from '@chakra-ui/react';
+import { FloatInput, PrimaryButton, TableContext } from '@lib/components';
+import { Filter } from '@lib/types';
+import { FormikHelpers, useFormik } from 'formik';
 
 type FilterProps = PropsWithChildren<{
-	onFilter?: () => void;
-	onClear?: () => void;
+	filters: Filter[];
+	onFilterAction: (values: any, helpers: FormikHelpers<any>) => Promise<void>;
 }>;
 
-export function TableFilter({ children, onFilter, onClear }: FilterProps) {
+export function TableFilter({ filters, onFilterAction }: FilterProps) {
+	const { setLoading } = useContext(TableContext);
+	const initialValues = filters.reduce((prev, next) => {
+		return {
+			...prev,
+			[next.name]: ''
+		};
+	}, {});
+
+	const onSubmit = async (values: any, helpers: FormikHelpers<any>) => {
+		setLoading(true);
+		await onFilterAction(values, helpers);
+		setLoading(false);
+	};
+
+	const formik = useFormik({
+		initialValues,
+		onSubmit
+	});
+
 	return (
-		<Container
-			bgColor='white'
-			borderRadius='5px'
-			py={5}
-			mt={5}
-		>
-			<Text fontSize='sm'>Tìm kiếm theo</Text>
-			<Grid
-				my={4}
-				templateColumns='repeat(3, 1fr)'
-				gap='6'
+		<form onSubmit={formik.handleSubmit}>
+			<Container
+				bgColor='white'
+				borderRadius='5px'
+				py={5}
+				mt={5}
 			>
-				{children}
-			</Grid>
-			<Flex justifyContent='end'>
-				<Flex gap={2}>
-					<PrimaryButton
-						size='xs'
-						variant='outline'
-						onClick={onClear}
-					>
-						Làm mới
-					</PrimaryButton>
-					<PrimaryButton
-						size='xs'
-						onClick={onFilter}
-					>
-						Tìm kiếm
-					</PrimaryButton>
+				<Text fontSize='sm'>Tìm kiếm theo</Text>
+				<Grid
+					my={4}
+					templateColumns='repeat(3, 1fr)'
+					gap='6'
+				>
+					<For each={filters}>
+						{(filter) => (
+							<TableFilterInput
+								key={filter.name}
+								filter={filter}
+								value={(formik.values as any)[filter.name]}
+								handleChange={formik.handleChange}
+							/>
+						)}
+					</For>
+				</Grid>
+				<Flex justifyContent='end'>
+					<Flex gap={2}>
+						<PrimaryButton
+							size='xs'
+							variant='outline'
+							onClick={() => formik.resetForm()}
+						>
+							Làm mới
+						</PrimaryButton>
+						<PrimaryButton
+							size='xs'
+							type='submit'
+						>
+							Tìm kiếm
+						</PrimaryButton>
+					</Flex>
 				</Flex>
-			</Flex>
-		</Container>
+			</Container>
+		</form>
 	);
+}
+
+type TableFilterInputProps = {
+	filter: Filter;
+	handleChange: {
+		(e: ChangeEvent<any>): void;
+		<T = string | ChangeEvent<any>>(
+			field: T
+		): T extends ChangeEvent<any> ? void : (e: string | ChangeEvent<any>) => void;
+	};
+	value: any;
+};
+
+function TableFilterInput({ filter, value, handleChange }: TableFilterInputProps) {
+	const { type, name, placeholder } = filter;
+
+	if (type === 'TEXT') {
+		return (
+			<FloatInput
+				id={name}
+				name={name}
+				value={value}
+				onChange={handleChange}
+			>
+				{placeholder}
+			</FloatInput>
+		);
+	}
+
+	return <></>;
 }

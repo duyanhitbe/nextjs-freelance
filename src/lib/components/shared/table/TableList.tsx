@@ -5,9 +5,10 @@ import { FiPlus } from 'react-icons/fi';
 
 type ListProps = PropsWithChildren<{
 	title: string;
+	shouldCreate?: boolean;
 }>;
 
-export function TableList({ children, title }: ListProps) {
+export function TableList({ children, title, shouldCreate = true }: ListProps) {
 	return (
 		<Container
 			bgColor='white'
@@ -25,11 +26,13 @@ export function TableList({ children, title }: ListProps) {
 				>
 					{title}
 				</Text>
-				<DialogTrigger asChild>
-					<PrimaryButton size='xs'>
-						<FiPlus /> Tạo mới
-					</PrimaryButton>
-				</DialogTrigger>
+				{shouldCreate && (
+					<DialogTrigger asChild>
+						<PrimaryButton size='xs'>
+							<FiPlus /> Tạo mới
+						</PrimaryButton>
+					</DialogTrigger>
+				)}
 			</Flex>
 			{children}
 		</Container>

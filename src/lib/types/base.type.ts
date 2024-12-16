@@ -5,3 +5,5 @@ export type BaseEntity = {
 	deletedAt?: string;
 	status: 'ACTIVE' | 'INACTIVE';
 };
+
+export type ServiceType = 'SERVER' | 'CLIENT';

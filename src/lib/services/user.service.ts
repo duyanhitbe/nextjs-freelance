@@ -1,15 +1,15 @@
-import { ApiResponse, ListUserParams, User } from '@lib/types';
-import { AxiosClientService } from '@lib/services';
+import { ApiResponse, ListUserParams, ServiceType, User } from '@lib/types';
+import { BaseService } from '@lib/services';
 
-class UserService {
-	async find(params: ListUserParams): Promise<ApiResponse<User[]>> {
-		try {
-			return AxiosClientService.get<ApiResponse<User[]>>('/api/users', params);
-		} catch (error) {
-			console.log(error);
-			throw error;
-		}
+class UserService extends BaseService {
+	constructor(private readonly type: ServiceType) {
+		super(type);
+	}
+
+	async find(params?: ListUserParams | string): Promise<ApiResponse<User[]>> {
+		return this.axios.get<ApiResponse<User[]>>('/api/v1/users', params);
 	}
 }
 
-export default new UserService();
+export const UserServerService = new UserService('SERVER');
+export const UserClientService = new UserService('CLIENT');

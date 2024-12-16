@@ -4,14 +4,22 @@ import { Button } from '@chakra-ui/react';
 type Props = PropsWithChildren<{
 	size?: '2xs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 	variant?: 'solid' | 'subtle' | 'surface' | 'outline' | 'ghost' | 'plain';
+	type?: 'submit' | 'reset' | 'button';
 	onClick?: () => void;
 }>;
 
-export function PrimaryButton({ children, size, variant = 'solid', onClick }: Props) {
+export function PrimaryButton({
+	children,
+	size,
+	variant = 'solid',
+	type = 'button',
+	onClick
+}: Props) {
 	const isOutline = variant === 'outline';
 
 	return (
 		<Button
+			type={type}
 			size={size}
 			variant='outline'
 			color={!isOutline ? 'white' : undefined}

@@ -1,5 +1,6 @@
+'use client';
 import { Container, Table as ChakraTable } from '@chakra-ui/react';
-import { PropsWithChildren } from 'react';
+import { createContext, Dispatch, PropsWithChildren, SetStateAction, useState } from 'react';
 import { TableTitle } from './TableTitle';
 import { TableFilter } from './TableFilter';
 import { TableList } from './TableList';
@@ -8,18 +9,37 @@ import { TableData } from './TableData';
 import { TableDialog } from './TableDialog';
 import { DialogRoot } from '@lib/components';
 
+export type TableContextType = {
+	loading: boolean;
+	setLoading: Dispatch<SetStateAction<boolean>>;
+};
+
+export const TableContext = createContext<TableContextType>({
+	loading: false,
+	setLoading: () => {}
+});
+
 type TableProps = PropsWithChildren;
 
 export function Table({ children }: TableProps) {
+	const [loading, setLoading] = useState(false);
+
 	return (
-		<Container>
-			<DialogRoot
-				size='lg'
-				placement='center'
-			>
-				{children}
-			</DialogRoot>
-		</Container>
+		<TableContext.Provider
+			value={{
+				loading,
+				setLoading
+			}}
+		>
+			<Container>
+				<DialogRoot
+					size='lg'
+					placement='center'
+				>
+					{children}
+				</DialogRoot>
+			</Container>
+		</TableContext.Provider>
 	);
 }
 

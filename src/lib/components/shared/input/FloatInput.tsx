@@ -1,12 +1,15 @@
+'use client';
 import { Box, defineStyle, Field, Input } from '@chakra-ui/react';
-import { PropsWithChildren } from 'react';
+import { ChangeEvent, PropsWithChildren } from 'react';
 
 type Props = PropsWithChildren<{
+	id?: string;
+	name?: string;
 	value?: any;
-	onChange?: (value: any) => void;
+	onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }>;
 
-export function FloatInput({ children, value, onChange = () => {} }: Props) {
+export function FloatInput({ children, id, name, value, onChange }: Props) {
 	return (
 		<Field.Root>
 			<Box
@@ -17,8 +20,11 @@ export function FloatInput({ children, value, onChange = () => {} }: Props) {
 					className='peer'
 					placeholder=''
 					colorPalette='teal'
+					id={id}
+					name={name}
 					value={value}
-					onChange={(e) => onChange(e.target.value)}
+					onChange={onChange}
+					type='text'
 				/>
 				<Field.Label css={floatingStyles}>{children}</Field.Label>
 			</Box>

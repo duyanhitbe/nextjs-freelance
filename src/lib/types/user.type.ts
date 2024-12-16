@@ -1,4 +1,4 @@
-import { BaseEntity } from '@lib/types/base.type';
+import { BaseEntity } from '@lib/types';
 
 export type User = BaseEntity & {
 	username: string;

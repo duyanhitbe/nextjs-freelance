@@ -1,4 +1,3 @@
-import UserService from './user.service';
-
 export * from './axios.service';
-export { UserService };
+export * from './base.service';
+export * from './user.service';

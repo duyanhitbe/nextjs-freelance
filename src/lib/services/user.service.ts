@@ -1,4 +1,4 @@
-import { ApiResponse, ListUserParams, ServiceType, User } from '@lib/types';
+import { ApiResponse, CreateUserBody, ListUserParams, ServiceType, User } from '@lib/types';
 import { BaseService } from '@lib/services';
 
 class UserService extends BaseService {
@@ -8,6 +8,10 @@ class UserService extends BaseService {
 
 	async find(params?: ListUserParams | string): Promise<ApiResponse<User[]>> {
 		return this.axios.get<ApiResponse<User[]>>('/api/v1/users', params);
+	}
+
+	async create(body: CreateUserBody): Promise<ApiResponse<User>> {
+		return this.axios.post<ApiResponse<User>>('/api/v1/users', body);
 	}
 }
 

@@ -6,6 +6,7 @@ type Props = PropsWithChildren<{
 	variant?: 'solid' | 'subtle' | 'surface' | 'outline' | 'ghost' | 'plain';
 	type?: 'submit' | 'reset' | 'button';
 	onClick?: () => void;
+	disabled?: boolean;
 }>;
 
 export function PrimaryButton({
@@ -13,7 +14,8 @@ export function PrimaryButton({
 	size,
 	variant = 'solid',
 	type = 'button',
-	onClick
+	onClick,
+	disabled
 }: Props) {
 	const isOutline = variant === 'outline';
 
@@ -28,6 +30,7 @@ export function PrimaryButton({
 				bgColor: !isOutline ? 'primary.outline' : undefined
 			}}
 			onClick={onClick}
+			disabled={disabled}
 		>
 			{children}
 		</Button>

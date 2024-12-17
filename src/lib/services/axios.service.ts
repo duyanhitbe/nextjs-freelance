@@ -15,11 +15,22 @@ class AxiosService {
 		if (params && typeof params !== 'string') {
 			params = qs.stringify(params);
 		}
+		if (!params) params = '';
 		try {
 			const { data } = await this.instance.get<T>(`${path}?${params}`);
 			return data;
-		} catch (error) {
-			console.log(error);
+		} catch (error: any) {
+			console.log(error.response?.data);
+			throw error;
+		}
+	}
+
+	async post<T>(path: string, body: any): Promise<T> {
+		try {
+			const { data } = await this.instance.post<T>(path, body);
+			return data;
+		} catch (error: any) {
+			console.log(error.response?.data);
 			throw error;
 		}
 	}

@@ -4,14 +4,16 @@ import { PropsWithChildren, useContext } from 'react';
 import { Table, TableContext } from '@lib/components';
 import { get } from 'lodash';
 
-type DataProps<T> = PropsWithChildren<{
+type DataProps = PropsWithChildren<{
 	headers: string[];
-	keys: (keyof T)[];
-	data: T[];
+	keys: string[];
 }>;
 
-export function TableData<T = any>({ children, headers, keys, data }: DataProps<T>) {
-	const { loading } = useContext(TableContext);
+export function TableListData({ children, headers, keys }: DataProps) {
+	const {
+		loading,
+		data: { data }
+	} = useContext(TableContext);
 
 	if (loading) {
 		return (
@@ -43,7 +45,7 @@ export function TableData<T = any>({ children, headers, keys, data }: DataProps<
 			</ChakraTable.Header>
 
 			<ChakraTable.Body>
-				{data.map((item) => (
+				{data.map((item: any) => (
 					<Table.Row key={get(item, 'id')}>
 						<For each={keys as string[]}>
 							{(key) => <Table.Cell key={key}>{get(item, key)}</Table.Cell>}

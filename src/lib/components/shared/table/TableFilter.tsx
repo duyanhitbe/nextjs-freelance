@@ -7,11 +7,11 @@ import { FormikHelpers, useFormik } from 'formik';
 
 type FilterProps = PropsWithChildren<{
 	filters: Filter[];
-	onFilterAction: (values: any, helpers: FormikHelpers<any>) => Promise<void>;
+	onFilterAction: (values: any, helpers: FormikHelpers<any>) => Promise<any>;
 }>;
 
 export function TableFilter({ children, filters, onFilterAction }: FilterProps) {
-	const { setLoading } = useContext(TableContext);
+	const { setLoading, setData } = useContext(TableContext);
 	const initialValues = filters.reduce((prev, next) => {
 		return {
 			...prev,
@@ -21,7 +21,8 @@ export function TableFilter({ children, filters, onFilterAction }: FilterProps) 
 
 	const onSubmit = async (values: any, helpers: FormikHelpers<any>) => {
 		setLoading(true);
-		await onFilterAction(values, helpers);
+		const newData = await onFilterAction(values, helpers);
+		setData(newData);
 		setLoading(false);
 	};
 

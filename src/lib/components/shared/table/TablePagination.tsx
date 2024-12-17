@@ -1,30 +1,30 @@
+'use client';
+
 import { Flex, HStack } from '@chakra-ui/react';
 import {
 	PaginationItems,
 	PaginationNextTrigger,
 	PaginationPageText,
 	PaginationPrevTrigger,
-	PaginationRoot
+	PaginationRoot,
+	TableContext
 } from '@lib/components';
-import { ApiResponseMeta } from '@lib/types';
+import { useContext } from 'react';
 
-type PaginationProps = {
-	count?: number;
-	pageSize?: number;
-	page?: number;
-	meta?: ApiResponseMeta;
-};
+type PaginationProps = {};
 
-export function TablePagination({ count, pageSize, page, meta }: PaginationProps) {
+export function TablePagination({}: PaginationProps) {
+	const { data } = useContext(TableContext);
+
 	return (
 		<Flex
 			justifyContent='end'
 			alignItems='center'
 		>
 			<PaginationRoot
-				count={meta?.totalItem || count || 0}
-				pageSize={meta?.limit || pageSize || 25}
-				page={meta?.page || page || 1}
+				count={data.meta?.totalItem || 0}
+				pageSize={data.meta?.limit || 25}
+				page={data.meta?.page || 1}
 				mt={4}
 				fontSize='sm'
 			>

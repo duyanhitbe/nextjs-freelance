@@ -7,3 +7,8 @@ export type User = BaseEntity & {
 export type ListUserParams = {
 	username?: string;
 };
+
+export type CreateUserBody = {
+	username: string;
+	password: string;
+};

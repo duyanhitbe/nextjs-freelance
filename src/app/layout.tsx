@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import '../assets/css/globals.css';
 import { PropsWithChildren } from 'react';
 import { Providers } from '@app/providers';
+import { Toaster } from '@lib/components';
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -17,7 +18,10 @@ export default function RootLayout({ children }: Props) {
 			suppressHydrationWarning
 		>
 			<body>
-				<Providers>{children}</Providers>
+				<Providers>
+					{children}
+					<Toaster />
+				</Providers>
 			</body>
 		</html>
 	);

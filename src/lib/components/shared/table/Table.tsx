@@ -1,38 +1,48 @@
 'use client';
+
 import { Container, Table as ChakraTable } from '@chakra-ui/react';
 import { createContext, Dispatch, PropsWithChildren, SetStateAction, useState } from 'react';
 import { TableTitle } from './TableTitle';
 import { TableFilter } from './TableFilter';
 import { TableList } from './TableList';
 import { TablePagination } from './TablePagination';
-import { TableData } from './TableData';
 import { TableListHeader } from '@lib/components/shared/table/TableListHeader';
-import {
-	TableDialogCreate,
-	TableDialogDelete,
-	TableDialogUpdate
-} from '@lib/components/shared/table/TableDialog';
+import { TableDialogCreate } from '@lib/components/shared/table/TableDialogCreate';
+import { TableDialogDelete } from '@lib/components/shared/table/TableDialogDelete';
+import { TableDialogUpdate } from '@lib/components/shared/table/TableDialogUpdate';
+import { ApiResponse } from '@lib/types';
+import { INITIAL_API_RESPONSE } from '@lib/constants';
+import { TableListData } from '@lib/components/shared/table/TableListData';
 
 export type TableContextType = {
 	loading: boolean;
 	setLoading: Dispatch<SetStateAction<boolean>>;
+	data: ApiResponse<any>;
+	setData: Dispatch<SetStateAction<ApiResponse<any>>>;
 };
 
 export const TableContext = createContext<TableContextType>({
 	loading: false,
-	setLoading: () => {}
+	setLoading: () => {},
+	data: INITIAL_API_RESPONSE,
+	setData: () => {}
 });
 
-type TableProps = PropsWithChildren;
+type TableProps<T> = PropsWithChildren<{
+	data: ApiResponse<T[]>;
+}>;
 
-export function Table({ children }: TableProps) {
+export function Table<T = any>({ children, data: propData }: TableProps<T>) {
+	const [data, setData] = useState(propData);
 	const [loading, setLoading] = useState(false);
 
 	return (
 		<TableContext.Provider
 			value={{
 				loading,
-				setLoading
+				setLoading,
+				data,
+				setData
 			}}
 		>
 			<Container>{children}</Container>
@@ -44,7 +54,7 @@ Table.Title = TableTitle;
 Table.Filter = TableFilter;
 Table.List = TableList;
 Table.ListHeader = TableListHeader;
-Table.Data = TableData;
+Table.ListData = TableListData;
 Table.Pagination = TablePagination;
 Table.DialogCreate = TableDialogCreate;
 Table.DialogDelete = TableDialogDelete;

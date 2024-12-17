@@ -23,9 +23,9 @@ export function PrimaryButton({
 			size={size}
 			variant='outline'
 			color={!isOutline ? 'white' : undefined}
-			bgColor={!isOutline ? 'teal.500' : undefined}
+			bgColor={!isOutline ? 'primary' : undefined}
 			_hover={{
-				bgColor: !isOutline ? 'teal.600' : undefined
+				bgColor: !isOutline ? 'primary.outline' : undefined
 			}}
 			onClick={onClick}
 		>

@@ -6,8 +6,12 @@ import { TableFilter } from './TableFilter';
 import { TableList } from './TableList';
 import { TablePagination } from './TablePagination';
 import { TableData } from './TableData';
-import { TableDialog } from './TableDialog';
-import { DialogRoot } from '@lib/components';
+import { TableListHeader } from '@lib/components/shared/table/TableListHeader';
+import {
+	TableDialogCreate,
+	TableDialogDelete,
+	TableDialogUpdate
+} from '@lib/components/shared/table/TableDialog';
 
 export type TableContextType = {
 	loading: boolean;
@@ -31,14 +35,7 @@ export function Table({ children }: TableProps) {
 				setLoading
 			}}
 		>
-			<Container>
-				<DialogRoot
-					size='lg'
-					placement='center'
-				>
-					{children}
-				</DialogRoot>
-			</Container>
+			<Container>{children}</Container>
 		</TableContext.Provider>
 	);
 }
@@ -46,8 +43,11 @@ export function Table({ children }: TableProps) {
 Table.Title = TableTitle;
 Table.Filter = TableFilter;
 Table.List = TableList;
+Table.ListHeader = TableListHeader;
 Table.Data = TableData;
 Table.Pagination = TablePagination;
-Table.Dialog = TableDialog;
+Table.DialogCreate = TableDialogCreate;
+Table.DialogDelete = TableDialogDelete;
+Table.DialogUpdate = TableDialogUpdate;
 Table.Row = ChakraTable.Row;
 Table.Cell = ChakraTable.Cell;

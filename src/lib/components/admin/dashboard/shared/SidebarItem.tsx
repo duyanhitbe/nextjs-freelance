@@ -38,9 +38,9 @@ export function SidebarItem({ title, icon: Icon, path }: Props) {
 					color={isActive ? 'white' : 'black'}
 					cursor='pointer'
 					_hover={{
-						color: isActive ? 'white' : 'teal.500'
+						color: isActive ? 'white' : 'primary'
 					}}
-					bgColor={isActive ? 'teal.500' : 'transparent'}
+					bgColor={isActive ? 'primary' : 'transparent'}
 				>
 					<Flex
 						alignItems='center'

@@ -19,7 +19,7 @@ export function FloatInput({ children, id, name, value, onChange }: Props) {
 				<Input
 					className='peer'
 					placeholder=''
-					colorPalette='teal'
+					colorPalette='primary'
 					id={id}
 					name={name}
 					value={value}
@@ -47,7 +47,7 @@ const floatingStyles = defineStyle({
 		insetStart: '3'
 	},
 	_peerFocusVisible: {
-		color: 'teal',
+		color: 'primary.dark',
 		top: '-3',
 		insetStart: '2'
 	}

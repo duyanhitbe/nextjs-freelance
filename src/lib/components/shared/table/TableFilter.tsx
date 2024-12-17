@@ -10,7 +10,7 @@ type FilterProps = PropsWithChildren<{
 	onFilterAction: (values: any, helpers: FormikHelpers<any>) => Promise<void>;
 }>;
 
-export function TableFilter({ filters, onFilterAction }: FilterProps) {
+export function TableFilter({ children, filters, onFilterAction }: FilterProps) {
 	const { setLoading } = useContext(TableContext);
 	const initialValues = filters.reduce((prev, next) => {
 		return {
@@ -30,50 +30,58 @@ export function TableFilter({ filters, onFilterAction }: FilterProps) {
 		onSubmit
 	});
 
+	const onClear = async () => {
+		formik.resetForm();
+		await onSubmit(formik.values, {} as any);
+	};
+
 	return (
-		<form onSubmit={formik.handleSubmit}>
-			<Container
-				bgColor='white'
-				borderRadius='5px'
-				py={5}
-				mt={5}
-			>
-				<Text fontSize='sm'>Tìm kiếm theo</Text>
-				<Grid
-					my={4}
-					templateColumns='repeat(3, 1fr)'
-					gap='6'
+		<>
+			<form onSubmit={formik.handleSubmit}>
+				<Container
+					bgColor='white'
+					borderRadius='5px'
+					py={5}
+					mt={5}
 				>
-					<For each={filters}>
-						{(filter) => (
-							<TableFilterInput
-								key={filter.name}
-								filter={filter}
-								value={(formik.values as any)[filter.name]}
-								handleChange={formik.handleChange}
-							/>
-						)}
-					</For>
-				</Grid>
-				<Flex justifyContent='end'>
-					<Flex gap={2}>
-						<PrimaryButton
-							size='xs'
-							variant='outline'
-							onClick={() => formik.resetForm()}
-						>
-							Làm mới
-						</PrimaryButton>
-						<PrimaryButton
-							size='xs'
-							type='submit'
-						>
-							Tìm kiếm
-						</PrimaryButton>
+					<Text fontSize='sm'>Tìm kiếm theo</Text>
+					<Grid
+						my={4}
+						templateColumns='repeat(3, 1fr)'
+						gap='6'
+					>
+						<For each={filters}>
+							{(filter) => (
+								<TableFilterInput
+									key={filter.name}
+									filter={filter}
+									value={(formik.values as any)[filter.name]}
+									handleChange={formik.handleChange}
+								/>
+							)}
+						</For>
+					</Grid>
+					<Flex justifyContent='end'>
+						<Flex gap={2}>
+							<PrimaryButton
+								size='xs'
+								variant='outline'
+								onClick={onClear}
+							>
+								Làm mới
+							</PrimaryButton>
+							<PrimaryButton
+								size='xs'
+								type='submit'
+							>
+								Tìm kiếm
+							</PrimaryButton>
+						</Flex>
 					</Flex>
-				</Flex>
-			</Container>
-		</form>
+				</Container>
+			</form>
+			{children}
+		</>
 	);
 }
 

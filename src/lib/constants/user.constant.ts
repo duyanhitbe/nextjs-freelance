@@ -1,4 +1,4 @@
-import { Filter } from '@lib/types';
+import { Filter, User } from '@lib/types';
 
 export const USER_FILTERS: Filter[] = [
 	{
@@ -7,3 +7,7 @@ export const USER_FILTERS: Filter[] = [
 		placeholder: 'Tài khoản'
 	}
 ];
+
+export const USER_HEADERS: string[] = ['Tên tài khoản', 'Ngày tạo', 'Ngày cập nhật gần nhất'];
+
+export const USER_KEYS: (keyof User)[] = ['username', 'createdAt', 'updatedAt'];

@@ -1,9 +1,8 @@
 'use client';
-import { Center, For, HStack, IconButton, Spinner, Table as ChakraTable } from '@chakra-ui/react';
+import { Center, For, HStack, Spinner, Table as ChakraTable } from '@chakra-ui/react';
 import { PropsWithChildren, useContext } from 'react';
 import { Table, TableContext } from '@lib/components';
 import { get } from 'lodash';
-import { FiEdit3, FiTrash } from 'react-icons/fi';
 
 type DataProps<T> = PropsWithChildren<{
 	headers: string[];
@@ -11,14 +10,14 @@ type DataProps<T> = PropsWithChildren<{
 	data: T[];
 }>;
 
-export function TableData<T = any>({ headers, keys, data }: DataProps<T>) {
+export function TableData<T = any>({ children, headers, keys, data }: DataProps<T>) {
 	const { loading } = useContext(TableContext);
 
 	if (loading) {
 		return (
 			<Center>
 				<Spinner
-					color='teal.500'
+					color='primary'
 					size='lg'
 				/>
 			</Center>
@@ -50,22 +49,7 @@ export function TableData<T = any>({ headers, keys, data }: DataProps<T>) {
 							{(key) => <Table.Cell key={key}>{get(item, key)}</Table.Cell>}
 						</For>
 						<Table.Cell>
-							<HStack gap={1}>
-								<IconButton
-									variant='ghost'
-									colorPalette='blue'
-									size='xs'
-								>
-									<FiEdit3 />
-								</IconButton>
-								<IconButton
-									variant='ghost'
-									colorPalette='red'
-									size='xs'
-								>
-									<FiTrash />
-								</IconButton>
-							</HStack>
+							<HStack gap={1}>{children}</HStack>
 						</Table.Cell>
 					</Table.Row>
 				))}

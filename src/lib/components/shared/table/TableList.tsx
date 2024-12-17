@@ -1,14 +1,9 @@
 import { PropsWithChildren } from 'react';
-import { Container, Flex, Text } from '@chakra-ui/react';
-import { DialogTrigger, PrimaryButton } from '@lib/components';
-import { FiPlus } from 'react-icons/fi';
+import { Container } from '@chakra-ui/react';
 
-type ListProps = PropsWithChildren<{
-	title: string;
-	shouldCreate?: boolean;
-}>;
+type ListProps = PropsWithChildren<{}>;
 
-export function TableList({ children, title, shouldCreate = true }: ListProps) {
+export function TableList({ children }: ListProps) {
 	return (
 		<Container
 			bgColor='white'
@@ -16,24 +11,6 @@ export function TableList({ children, title, shouldCreate = true }: ListProps) {
 			py={5}
 			mt={5}
 		>
-			<Flex
-				alignItems='center'
-				justifyContent='space-between'
-			>
-				<Text
-					fontSize='md'
-					fontWeight='500'
-				>
-					{title}
-				</Text>
-				{shouldCreate && (
-					<DialogTrigger asChild>
-						<PrimaryButton size='xs'>
-							<FiPlus /> Tạo mới
-						</PrimaryButton>
-					</DialogTrigger>
-				)}
-			</Flex>
 			{children}
 		</Container>
 	);

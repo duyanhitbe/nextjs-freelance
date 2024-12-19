@@ -1,11 +1,9 @@
 'use client';
 
-import { errorToast, FieldInput, successToast, Table, TableContext } from '@lib/components';
-import { Form, Formik, FormikHelpers } from 'formik';
 import { VStack } from '@chakra-ui/react';
+import { FieldInput, Table } from '@lib/components';
 import * as Yup from 'yup';
 import { UserClientService } from '@lib/services';
-import { useContext, useState } from 'react';
 
 type Props = {};
 
@@ -26,75 +24,44 @@ const validationSchema = Yup.object().shape({
 type Values = typeof initialValues;
 
 export function CreateUserDialog({}: Props) {
-	const { setData, setLoading: setDataLoading } = useContext(TableContext);
-	const [loading, setLoading] = useState<boolean>(false);
-	const [openDialog, setOpenDialog] = useState<boolean>(false);
-
-	const onSubmit = (values: Values, helpers: FormikHelpers<Values>) => {
-		setLoading(true);
-		UserClientService.create(values)
-			.then(async () => {
-				setLoading(false);
-				setOpenDialog(false);
-				helpers.resetForm();
-				setDataLoading(true);
-				const data = await UserClientService.find();
-				setData(data);
-				setDataLoading(false);
-				successToast('Tạo tài khoản thành công');
-			})
-			.catch((err) => {
-				setLoading(false);
-				if (err.response?.data) {
-					errorToast('Tạo tài khoản thất bại', err.response.data.errors?.join('\n'));
-				}
-			});
+	const onCreate = (values: Values) => {
+		return UserClientService.create(values);
 	};
 
 	return (
-		<Formik<Values>
+		<Table.DialogCreate
+			dialogTitle='Tạo tài khoản'
 			initialValues={initialValues}
-			onSubmit={onSubmit}
 			validationSchema={validationSchema}
+			onCreate={onCreate}
+			successMessage='Tạo mới người dùng thành công'
+			failMessage='Tạo mới người dùng thất bại'
 		>
-			{({ submitForm, resetForm }) => (
-				<Form>
-					<Table.DialogCreate
-						dialogTitle='Tạo tài khoản'
-						onSave={submitForm}
-						onCancel={() => resetForm()}
-						loading={loading}
-						openDialog={openDialog}
-						setOpenDialog={setOpenDialog}
-					>
-						<VStack gap={4}>
-							<FieldInput
-								id='username'
-								name='username'
-								label='Tên tài khoản'
-								placeholder='Nhập tên tài khoản'
-								required
-							/>
-							<FieldInput
-								id='password'
-								name='password'
-								label='Mật khẩu'
-								placeholder='Nhập mật khẩu'
-								type='password'
-								required
-							/>
-							<FieldInput
-								id='confirmPassword'
-								name='confirmPassword'
-								label='Nhập lại mật khẩu'
-								placeholder='Nhập lại mật khẩu'
-								type='password'
-								required
-							/>
-						</VStack>
-					</Table.DialogCreate>
-				</Form>
-			)}
-		</Formik>
+			<VStack gap={4}>
+				<FieldInput
+					id='username'
+					name='username'
+					label='Tên tài khoản'
+					placeholder='Nhập tên tài khoản'
+					required
+				/>
+				<FieldInput
+					id='password'
+					name='password'
+					label='Mật khẩu'
+					placeholder='Nhập mật khẩu'
+					type='password'
+					required
+				/>
+				<FieldInput
+					id='confirmPassword'
+					name='confirmPassword'
+					label='Nhập lại mật khẩu'
+					placeholder='Nhập lại mật khẩu'
+					type='password'
+					required
+				/>
+			</VStack>
+		</Table.DialogCreate>
 	);
 }

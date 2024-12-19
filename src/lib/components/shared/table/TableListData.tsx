@@ -1,8 +1,8 @@
 'use client';
 import { Center, For, HStack, Spinner, Table as ChakraTable } from '@chakra-ui/react';
-import { PropsWithChildren, useContext } from 'react';
-import { Table, TableContext } from '@lib/components';
+import { Table, useTableContext } from '@lib/components';
 import { get } from 'lodash';
+import { PropsWithChildren } from 'react';
 
 type DataProps = PropsWithChildren<{
 	headers: string[];
@@ -11,11 +11,11 @@ type DataProps = PropsWithChildren<{
 
 export function TableListData({ children, headers, keys }: DataProps) {
 	const {
-		loading,
+		loadingData,
 		data: { data }
-	} = useContext(TableContext);
+	} = useTableContext();
 
-	if (loading) {
+	if (loadingData) {
 		return (
 			<Center>
 				<Spinner

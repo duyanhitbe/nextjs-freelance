@@ -1,6 +1,6 @@
 'use client';
 
-import { Dispatch, PropsWithChildren, SetStateAction } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import {
 	DialogActionTrigger,
 	DialogBody,
@@ -11,72 +11,95 @@ import {
 	DialogRoot,
 	DialogTitle,
 	DialogTrigger,
-	PrimaryButton
+	errorToast,
+	PrimaryButton,
+	successToast,
+	useTableContext
 } from '@lib/components';
 import { FiPlus } from 'react-icons/fi';
 import { Spinner } from '@chakra-ui/react';
-import { useFormikContext } from 'formik';
+import { Form, Formik } from 'formik';
 
 type DialogCreateProps = PropsWithChildren<{
 	title?: string;
 	dialogTitle?: string;
-	onSave?: () => void;
-	onCancel?: () => void;
-	loading?: boolean;
-	openDialog?: boolean;
-	setOpenDialog: Dispatch<SetStateAction<boolean>>;
+	initialValues: any;
+	validationSchema?: any;
+	onCreate: (values: any) => Promise<any>;
+	successMessage?: string;
+	failMessage?: string;
 }>;
 
 export function TableDialogCreate({
 	children,
 	title,
 	dialogTitle,
-	onSave,
-	onCancel,
-	loading,
-	openDialog,
-	setOpenDialog
+	initialValues,
+	validationSchema,
+	onCreate,
+	successMessage,
+	failMessage
 }: DialogCreateProps) {
-	const { resetForm } = useFormikContext();
+	const { fetchData } = useTableContext();
+	const [loading, setLoading] = useState(false);
+	const [open, setOpen] = useState(false);
 
-	const onOpenChange = ({ open }: { open: boolean }) => {
-		setOpenDialog(open);
-		if (!open) {
-			resetForm();
-		}
+	const onSubmit = (values: any) => {
+		setLoading(true);
+		onCreate(values)
+			.then(() => {
+				setLoading(false);
+				setOpen(false);
+				fetchData();
+				successToast(successMessage || 'Tạo thành công');
+			})
+			.catch((err) => {
+				const message = err.response?.data?.errors;
+				setLoading(false);
+				errorToast(failMessage || 'Tạo thất bại', message);
+			});
 	};
 
 	return (
-		<DialogRoot
-			placement='center'
-			size='lg'
-			open={openDialog}
-			onOpenChange={onOpenChange}
+		<Formik
+			initialValues={initialValues}
+			validationSchema={validationSchema}
+			onSubmit={onSubmit}
 		>
-			<DialogTrigger asChild>
-				<PrimaryButton size='xs'>
-					<FiPlus /> {title || 'Tạo mới'}
-				</PrimaryButton>
-			</DialogTrigger>
-			<DialogContent>
-				<DialogCloseTrigger onClick={onCancel} />
-				<DialogHeader>
-					<DialogTitle>{dialogTitle || 'Create'}</DialogTitle>
-				</DialogHeader>
-				<DialogBody>{children}</DialogBody>
-				<DialogFooter>
-					<DialogActionTrigger asChild>
-						<PrimaryButton
-							variant='outline'
-							onClick={onCancel}
-							disabled={loading}
-						>
-							Huỷ bỏ
-						</PrimaryButton>
-					</DialogActionTrigger>
-					<PrimaryButton onClick={onSave}>{loading ? <Spinner /> : 'Lưu'}</PrimaryButton>
-				</DialogFooter>
-			</DialogContent>
-		</DialogRoot>
+			{({ submitForm, resetForm }) => (
+				<Form>
+					<DialogRoot
+						placement='center'
+						size='lg'
+						open={open}
+						onOpenChange={({ open }) => {
+							setOpen(open);
+							resetForm();
+						}}
+					>
+						<DialogTrigger asChild>
+							<PrimaryButton size='xs'>
+								<FiPlus /> {title || 'Tạo mới'}
+							</PrimaryButton>
+						</DialogTrigger>
+						<DialogContent>
+							<DialogCloseTrigger />
+							<DialogHeader>
+								<DialogTitle>{dialogTitle || 'Create'}</DialogTitle>
+							</DialogHeader>
+							<DialogBody>{children}</DialogBody>
+							<DialogFooter>
+								<DialogActionTrigger asChild>
+									<PrimaryButton variant='outline'>Huỷ bỏ</PrimaryButton>
+								</DialogActionTrigger>
+								<PrimaryButton onClick={submitForm}>
+									{loading ? <Spinner /> : 'Lưu'}
+								</PrimaryButton>
+							</DialogFooter>
+						</DialogContent>
+					</DialogRoot>
+				</Form>
+			)}
+		</Formik>
 	);
 }

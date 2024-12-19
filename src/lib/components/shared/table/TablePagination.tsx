@@ -7,14 +7,13 @@ import {
 	PaginationPageText,
 	PaginationPrevTrigger,
 	PaginationRoot,
-	TableContext
+	useTableContext
 } from '@lib/components';
-import { useContext } from 'react';
 
 type PaginationProps = {};
 
 export function TablePagination({}: PaginationProps) {
-	const { data } = useContext(TableContext);
+	const { data } = useTableContext();
 
 	return (
 		<Flex

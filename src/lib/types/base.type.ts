@@ -7,3 +7,8 @@ export type BaseEntity = {
 };
 
 export type ServiceType = 'SERVER' | 'CLIENT';
+
+export type FetchDataParams = {
+	limit?: number;
+	page?: number;
+};

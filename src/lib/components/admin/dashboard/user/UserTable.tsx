@@ -16,12 +16,12 @@ export function UserTable({ data }: Props) {
 	};
 
 	return (
-		<Table<User> data={data}>
+		<Table<User>
+			initialData={data}
+			fetchData={(params) => UserClientService.find(params)}
+		>
 			<Table.Title>Tài khoản</Table.Title>
-			<Table.Filter
-				filters={USER_FILTERS}
-				onFilterAction={onFilter}
-			/>
+			<Table.Filter filters={USER_FILTERS} />
 			<Table.List>
 				<Table.ListHeader title='Danh sách người dùng'>
 					<CreateUserDialog />

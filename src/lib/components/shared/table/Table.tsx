@@ -1,48 +1,83 @@
 'use client';
 
 import { Container, Table as ChakraTable } from '@chakra-ui/react';
-import { createContext, Dispatch, PropsWithChildren, SetStateAction, useState } from 'react';
-import { TableTitle } from './TableTitle';
-import { TableFilter } from './TableFilter';
-import { TableList } from './TableList';
-import { TablePagination } from './TablePagination';
-import { TableListHeader } from '@lib/components/shared/table/TableListHeader';
 import { TableDialogCreate } from '@lib/components/shared/table/TableDialogCreate';
 import { TableDialogDelete } from '@lib/components/shared/table/TableDialogDelete';
 import { TableDialogUpdate } from '@lib/components/shared/table/TableDialogUpdate';
-import { ApiResponse } from '@lib/types';
-import { INITIAL_API_RESPONSE } from '@lib/constants';
 import { TableListData } from '@lib/components/shared/table/TableListData';
+import { TableListHeader } from '@lib/components/shared/table/TableListHeader';
+import { INITIAL_API_RESPONSE, INITIAL_SET_STATE_FUNCTION } from '@lib/constants';
+import { ApiResponse, FetchDataParams } from '@lib/types';
+import {
+	createContext,
+	Dispatch,
+	PropsWithChildren,
+	SetStateAction,
+	useContext,
+	useState
+} from 'react';
+import { TableFilter } from './TableFilter';
+import { TableList } from './TableList';
+import { TablePagination } from './TablePagination';
+import { TableTitle } from './TableTitle';
 
 export type TableContextType = {
-	loading: boolean;
-	setLoading: Dispatch<SetStateAction<boolean>>;
+	loadingData: boolean;
+	setLoadingData: Dispatch<SetStateAction<boolean>>;
 	data: ApiResponse<any>;
 	setData: Dispatch<SetStateAction<ApiResponse<any>>>;
+	limit: number;
+	setLimit: Dispatch<SetStateAction<number>>;
+	page: number;
+	setPage: Dispatch<SetStateAction<number>>;
+	fetchData(params?: FetchDataParams): void;
 };
 
-export const TableContext = createContext<TableContextType>({
-	loading: false,
-	setLoading: () => {},
+const TableContext = createContext<TableContextType>({
+	loadingData: false,
+	setLoadingData: INITIAL_SET_STATE_FUNCTION,
 	data: INITIAL_API_RESPONSE,
-	setData: () => {}
+	setData: INITIAL_SET_STATE_FUNCTION,
+	limit: 25,
+	setLimit: INITIAL_SET_STATE_FUNCTION,
+	page: 1,
+	setPage: INITIAL_SET_STATE_FUNCTION,
+	fetchData: () => {}
 });
 
+export const useTableContext = () => useContext(TableContext);
+
 type TableProps<T> = PropsWithChildren<{
-	data: ApiResponse<T[]>;
+	initialData: ApiResponse<T[]>;
+	fetchData: (params?: FetchDataParams) => Promise<ApiResponse<T[]>>;
 }>;
 
-export function Table<T = any>({ children, data: propData }: TableProps<T>) {
-	const [data, setData] = useState(propData);
-	const [loading, setLoading] = useState(false);
+export function Table<T = any>({ children, initialData, fetchData: onFetchData }: TableProps<T>) {
+	const [data, setData] = useState(initialData);
+	const [loadingData, setLoadingData] = useState(false);
+	const [limit, setLimit] = useState(25);
+	const [page, setPage] = useState(1);
+
+	const fetchData = (params?: FetchDataParams) => {
+		setLoadingData(true);
+		onFetchData(params).then((res) => {
+			setData(res);
+			setLoadingData(false);
+		});
+	};
 
 	return (
 		<TableContext.Provider
 			value={{
-				loading,
-				setLoading,
+				loadingData,
+				setLoadingData,
 				data,
-				setData
+				setData,
+				limit,
+				setLimit,
+				page,
+				setPage,
+				fetchData
 			}}
 		>
 			<Container>{children}</Container>

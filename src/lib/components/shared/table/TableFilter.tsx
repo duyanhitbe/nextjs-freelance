@@ -1,17 +1,16 @@
 'use client';
-import { ChangeEvent, PropsWithChildren, useContext } from 'react';
 import { Container, Flex, For, Grid, Text } from '@chakra-ui/react';
-import { FloatInput, PrimaryButton, TableContext } from '@lib/components';
+import { FloatInput, PrimaryButton, useTableContext } from '@lib/components';
 import { Filter } from '@lib/types';
 import { FormikHelpers, useFormik } from 'formik';
+import { ChangeEvent, PropsWithChildren } from 'react';
 
 type FilterProps = PropsWithChildren<{
 	filters: Filter[];
-	onFilterAction: (values: any, helpers: FormikHelpers<any>) => Promise<any>;
 }>;
 
-export function TableFilter({ children, filters, onFilterAction }: FilterProps) {
-	const { setLoading, setData } = useContext(TableContext);
+export function TableFilter({ children, filters }: FilterProps) {
+	const { fetchData, limit, setPage } = useTableContext();
 	const initialValues = filters.reduce((prev, next) => {
 		return {
 			...prev,
@@ -20,10 +19,13 @@ export function TableFilter({ children, filters, onFilterAction }: FilterProps) 
 	}, {});
 
 	const onSubmit = async (values: any, helpers: FormikHelpers<any>) => {
-		setLoading(true);
-		const newData = await onFilterAction(values, helpers);
-		setData(newData);
-		setLoading(false);
+		const page = 1;
+		setPage(page);
+		fetchData({
+			...values,
+			limit,
+			page
+		});
 	};
 
 	const formik = useFormik({

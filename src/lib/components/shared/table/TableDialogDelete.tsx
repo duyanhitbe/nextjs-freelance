@@ -1,4 +1,4 @@
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import {
 	Button,
 	DialogActionTrigger,
@@ -9,22 +9,55 @@ import {
 	DialogHeader,
 	DialogRoot,
 	DialogTitle,
-	DialogTrigger
+	DialogTrigger,
+	errorToast,
+	successToast,
+	useTableContext
 } from '@lib/components';
-import { IconButton } from '@chakra-ui/react';
+import { IconButton, Spinner } from '@chakra-ui/react';
 import { FiTrash } from 'react-icons/fi';
 
 type DialogDeleteProps = PropsWithChildren<{
 	title?: string;
 	description?: string;
+	onDelete: (id: string) => Promise<any>;
+	successMessage?: string;
+	failureMessage?: string;
 }>;
 
-export function TableDialogDelete({ title, description }: DialogDeleteProps) {
+export function TableDialogDelete({
+	title,
+	description,
+	onDelete,
+	successMessage,
+	failureMessage
+}: DialogDeleteProps) {
+	const { id, fetchData } = useTableContext();
+	const [loading, setLoading] = useState(false);
+	const [open, setOpen] = useState(false);
+
+	const onClickDelete = () => {
+		setLoading(true);
+		onDelete(id)
+			.then(() => {
+				setLoading(false);
+				fetchData();
+				successToast(successMessage || 'Xoá thành công');
+			})
+			.catch((err) => {
+				const message = err.response?.data?.errors;
+				setLoading(false);
+				errorToast(failureMessage || 'Xoá thất bại', message);
+			});
+	};
+
 	return (
 		<DialogRoot
 			role='alertdialog'
 			placement='center'
 			size='sm'
+			open={open}
+			onOpenChange={({ open }) => setOpen(open)}
 		>
 			<DialogTrigger asChild>
 				<IconButton
@@ -44,9 +77,19 @@ export function TableDialogDelete({ title, description }: DialogDeleteProps) {
 				</DialogBody>
 				<DialogFooter>
 					<DialogActionTrigger asChild>
-						<Button variant='outline'>Huỷ bỏ</Button>
+						<Button
+							variant='outline'
+							disabled={loading}
+						>
+							Huỷ bỏ
+						</Button>
 					</DialogActionTrigger>
-					<Button colorPalette='red'>Xoá</Button>
+					<Button
+						colorPalette='red'
+						onClick={onClickDelete}
+					>
+						{loading ? <Spinner /> : 'Xoá'}
+					</Button>
 				</DialogFooter>
 				<DialogCloseTrigger />
 			</DialogContent>

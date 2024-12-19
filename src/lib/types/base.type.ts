@@ -12,3 +12,11 @@ export type FetchDataParams = {
 	limit?: number;
 	page?: number;
 };
+
+export type NextRequestParams<T = any> = {
+	params: Promise<T>;
+};
+
+export type NextRequestIdParams = {
+	params: Promise<{ id: string }>;
+};

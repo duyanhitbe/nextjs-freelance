@@ -35,7 +35,7 @@ export function CreateUserDialog({}: Props) {
 			validationSchema={validationSchema}
 			onCreate={onCreate}
 			successMessage='Tạo mới người dùng thành công'
-			failMessage='Tạo mới người dùng thất bại'
+			failureMessage='Tạo mới người dùng thất bại'
 		>
 			<VStack gap={4}>
 				<FieldInput

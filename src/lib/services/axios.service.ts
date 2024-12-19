@@ -34,6 +34,16 @@ class AxiosService {
 			throw error;
 		}
 	}
+
+	async delete<T>(path: string): Promise<T> {
+		try {
+			const { data } = await this.instance.delete<T>(path);
+			return data;
+		} catch (error: any) {
+			console.log(error.response?.data);
+			throw error;
+		}
+	}
 }
 
 export const AxiosClientService = new AxiosService('CLIENT');

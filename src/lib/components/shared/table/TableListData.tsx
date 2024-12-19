@@ -10,10 +10,7 @@ type DataProps = PropsWithChildren<{
 }>;
 
 export function TableListData({ children, headers, keys }: DataProps) {
-	const {
-		loadingData,
-		data: { data }
-	} = useTableContext();
+	const { loadingData, data, setId } = useTableContext();
 
 	if (loadingData) {
 		return (
@@ -45,13 +42,18 @@ export function TableListData({ children, headers, keys }: DataProps) {
 			</ChakraTable.Header>
 
 			<ChakraTable.Body>
-				{data.map((item: any) => (
+				{data.data.map((item: any) => (
 					<Table.Row key={get(item, 'id')}>
 						<For each={keys as string[]}>
 							{(key) => <Table.Cell key={key}>{get(item, key)}</Table.Cell>}
 						</For>
 						<Table.Cell>
-							<HStack gap={1}>{children}</HStack>
+							<HStack
+								gap={1}
+								onClick={() => setId(get(item, 'id'))}
+							>
+								{children}
+							</HStack>
 						</Table.Cell>
 					</Table.Row>
 				))}

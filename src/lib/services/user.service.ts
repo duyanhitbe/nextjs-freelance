@@ -13,6 +13,10 @@ class UserService extends BaseService {
 	async create(body: CreateUserBody): Promise<ApiResponse<User>> {
 		return this.axios.post<ApiResponse<User>>('/api/v1/users', body);
 	}
+
+	async delete(id: string): Promise<ApiResponse<User>> {
+		return this.axios.delete<ApiResponse<User>>(`/api/v1/users/${id}`);
+	}
 }
 
 export const UserServerService = new UserService('SERVER');

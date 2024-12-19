@@ -30,6 +30,8 @@ export type TableContextType = {
 	setLimit: Dispatch<SetStateAction<number>>;
 	page: number;
 	setPage: Dispatch<SetStateAction<number>>;
+	id: string;
+	setId: Dispatch<SetStateAction<string>>;
 	fetchData(params?: FetchDataParams): void;
 };
 
@@ -42,6 +44,8 @@ const TableContext = createContext<TableContextType>({
 	setLimit: INITIAL_SET_STATE_FUNCTION,
 	page: 1,
 	setPage: INITIAL_SET_STATE_FUNCTION,
+	id: '',
+	setId: INITIAL_SET_STATE_FUNCTION,
 	fetchData: () => {}
 });
 
@@ -53,6 +57,7 @@ type TableProps<T> = PropsWithChildren<{
 }>;
 
 export function Table<T = any>({ children, initialData, fetchData: onFetchData }: TableProps<T>) {
+	const [id, setId] = useState('');
 	const [data, setData] = useState(initialData);
 	const [loadingData, setLoadingData] = useState(false);
 	const [limit, setLimit] = useState(25);
@@ -77,7 +82,9 @@ export function Table<T = any>({ children, initialData, fetchData: onFetchData }
 				setLimit,
 				page,
 				setPage,
-				fetchData
+				fetchData,
+				id,
+				setId
 			}}
 		>
 			<Container>{children}</Container>

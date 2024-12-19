@@ -27,7 +27,7 @@ type DialogCreateProps = PropsWithChildren<{
 	validationSchema?: any;
 	onCreate: (values: any) => Promise<any>;
 	successMessage?: string;
-	failMessage?: string;
+	failureMessage?: string;
 }>;
 
 export function TableDialogCreate({
@@ -38,7 +38,7 @@ export function TableDialogCreate({
 	validationSchema,
 	onCreate,
 	successMessage,
-	failMessage
+	failureMessage
 }: DialogCreateProps) {
 	const { fetchData } = useTableContext();
 	const [loading, setLoading] = useState(false);
@@ -56,7 +56,7 @@ export function TableDialogCreate({
 			.catch((err) => {
 				const message = err.response?.data?.errors;
 				setLoading(false);
-				errorToast(failMessage || 'Tạo thất bại', message);
+				errorToast(failureMessage || 'Tạo thất bại', message);
 			});
 	};
 

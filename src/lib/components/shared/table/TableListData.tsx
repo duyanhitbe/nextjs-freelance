@@ -10,7 +10,7 @@ type DataProps = PropsWithChildren<{
 }>;
 
 export function TableListData({ children, headers, keys }: DataProps) {
-	const { loadingData, data, setId } = useTableContext();
+	const { loadingData, data, setId, fetchDetail } = useTableContext();
 
 	if (loadingData) {
 		return (
@@ -22,6 +22,11 @@ export function TableListData({ children, headers, keys }: DataProps) {
 			</Center>
 		);
 	}
+
+	const onClickItem = (id: string) => {
+		setId(id);
+		fetchDetail(id);
+	};
 
 	return (
 		<ChakraTable.Root
@@ -50,7 +55,7 @@ export function TableListData({ children, headers, keys }: DataProps) {
 						<Table.Cell>
 							<HStack
 								gap={1}
-								onClick={() => setId(get(item, 'id'))}
+								onClick={() => onClickItem(get(item, 'id'))}
 							>
 								{children}
 							</HStack>

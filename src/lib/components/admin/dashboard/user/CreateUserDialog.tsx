@@ -5,8 +5,6 @@ import { FieldInput, Table } from '@lib/components';
 import * as Yup from 'yup';
 import { UserClientService } from '@lib/services';
 
-type Props = {};
-
 const initialValues = {
 	username: '',
 	password: '',
@@ -23,7 +21,7 @@ const validationSchema = Yup.object().shape({
 
 type Values = typeof initialValues;
 
-export function CreateUserDialog({}: Props) {
+export function CreateUserDialog() {
 	const onCreate = (values: Values) => {
 		return UserClientService.create(values);
 	};

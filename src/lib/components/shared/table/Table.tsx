@@ -21,11 +21,11 @@ import { TableList } from './TableList';
 import { TablePagination } from './TablePagination';
 import { TableTitle } from './TableTitle';
 
-export type TableContextType = {
+export type TableContextType<T = any> = {
 	loadingData: boolean;
 	setLoadingData: Dispatch<SetStateAction<boolean>>;
-	data: ApiResponse<any>;
-	setData: Dispatch<SetStateAction<ApiResponse<any>>>;
+	data: ApiResponse<T[]>;
+	setData: Dispatch<SetStateAction<ApiResponse<T[]>>>;
 	limit: number;
 	setLimit: Dispatch<SetStateAction<number>>;
 	page: number;
@@ -33,6 +33,7 @@ export type TableContextType = {
 	id: string;
 	setId: Dispatch<SetStateAction<string>>;
 	fetchData(params?: FetchDataParams): void;
+	fetchDetail(id: string): Promise<ApiResponse<T>>;
 };
 
 const TableContext = createContext<TableContextType>({
@@ -46,17 +47,24 @@ const TableContext = createContext<TableContextType>({
 	setPage: INITIAL_SET_STATE_FUNCTION,
 	id: '',
 	setId: INITIAL_SET_STATE_FUNCTION,
-	fetchData: () => {}
+	fetchData: () => {},
+	fetchDetail: async () => INITIAL_API_RESPONSE
 });
 
-export const useTableContext = () => useContext(TableContext);
+export const useTableContext = <T = any,>() => useContext<TableContextType<T>>(TableContext);
 
 type TableProps<T> = PropsWithChildren<{
 	initialData: ApiResponse<T[]>;
 	fetchData: (params?: FetchDataParams) => Promise<ApiResponse<T[]>>;
+	fetchDetail: (id: string) => Promise<ApiResponse<T>>;
 }>;
 
-export function Table<T = any>({ children, initialData, fetchData: onFetchData }: TableProps<T>) {
+export function Table<T = any>({
+	children,
+	initialData,
+	fetchData: onFetchData,
+	fetchDetail
+}: TableProps<T>) {
 	const [id, setId] = useState('');
 	const [data, setData] = useState(initialData);
 	const [loadingData, setLoadingData] = useState(false);
@@ -65,10 +73,14 @@ export function Table<T = any>({ children, initialData, fetchData: onFetchData }
 
 	const fetchData = (params?: FetchDataParams) => {
 		setLoadingData(true);
-		onFetchData(params).then((res) => {
-			setData(res);
-			setLoadingData(false);
-		});
+		onFetchData(params)
+			.then((res) => {
+				setData(res);
+				setLoadingData(false);
+			})
+			.catch(() => {
+				setLoadingData(false);
+			});
 	};
 
 	return (
@@ -82,9 +94,10 @@ export function Table<T = any>({ children, initialData, fetchData: onFetchData }
 				setLimit,
 				page,
 				setPage,
-				fetchData,
 				id,
-				setId
+				setId,
+				fetchData,
+				fetchDetail
 			}}
 		>
 			<Container>{children}</Container>

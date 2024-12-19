@@ -85,14 +85,14 @@ export function TableDialogCreate({
 						<DialogContent>
 							<DialogCloseTrigger />
 							<DialogHeader>
-								<DialogTitle>{dialogTitle || 'Create'}</DialogTitle>
+								<DialogTitle>{dialogTitle || 'Tạo mới'}</DialogTitle>
 							</DialogHeader>
 							<DialogBody>{children}</DialogBody>
 							<DialogFooter>
 								<DialogActionTrigger asChild>
 									<PrimaryButton variant='outline'>Huỷ bỏ</PrimaryButton>
 								</DialogActionTrigger>
-								<PrimaryButton onClick={submitForm}>
+								<PrimaryButton onClick={() => submitForm()}>
 									{loading ? <Spinner /> : 'Lưu'}
 								</PrimaryButton>
 							</DialogFooter>

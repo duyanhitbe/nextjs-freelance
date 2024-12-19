@@ -10,6 +10,10 @@ class UserService extends BaseService {
 		return this.axios.get<ApiResponse<User[]>>('/api/v1/users', params);
 	}
 
+	async findById(id: string): Promise<ApiResponse<User>> {
+		return this.axios.get<ApiResponse<User>>(`/api/v1/users/${id}`);
+	}
+
 	async create(body: CreateUserBody): Promise<ApiResponse<User>> {
 		return this.axios.post<ApiResponse<User>>('/api/v1/users', body);
 	}

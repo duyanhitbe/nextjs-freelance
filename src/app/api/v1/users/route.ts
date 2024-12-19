@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest) {
 	const body = await req.json();
 	try {
-		const { data } = await UserServerService.create(body);
+		const data = await UserServerService.create(body);
 		return NextResponse.json(data);
 	} catch (err: any) {
 		return NextResponse.json(err.response?.data, {

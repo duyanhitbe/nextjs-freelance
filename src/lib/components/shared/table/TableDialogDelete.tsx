@@ -16,6 +16,7 @@ import {
 } from '@lib/components';
 import { IconButton, Spinner } from '@chakra-ui/react';
 import { FiTrash } from 'react-icons/fi';
+import { getAxiosError } from '@lib/helpers';
 
 type DialogDeleteProps = PropsWithChildren<{
 	title?: string;
@@ -45,9 +46,9 @@ export function TableDialogDelete({
 				successToast(successMessage || 'Xoá thành công');
 			})
 			.catch((err) => {
-				const message = err.response?.data?.errors;
+				const message = getAxiosError(err);
 				setLoading(false);
-				errorToast(failureMessage || 'Xoá thất bại', message);
+				errorToast(failureMessage || 'Xoá thất bại', message!);
 			});
 	};
 

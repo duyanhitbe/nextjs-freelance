@@ -19,6 +19,7 @@ import {
 import { FiPlus } from 'react-icons/fi';
 import { Spinner } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
+import { getAxiosError } from '@lib/helpers';
 
 type DialogCreateProps = PropsWithChildren<{
 	title?: string;
@@ -54,9 +55,9 @@ export function TableDialogCreate({
 				successToast(successMessage || 'Tạo thành công');
 			})
 			.catch((err) => {
-				const message = err.response?.data?.errors;
+				const message = getAxiosError(err);
 				setLoading(false);
-				errorToast(failureMessage || 'Tạo thất bại', message);
+				errorToast(failureMessage || 'Tạo thất bại', message!);
 			});
 	};
 

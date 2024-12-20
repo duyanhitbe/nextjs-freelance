@@ -29,11 +29,11 @@ export function CreateUserDialog() {
 	return (
 		<Table.DialogCreate
 			dialogTitle='Tạo tài khoản'
+			successMessage='Tạo mới người dùng thành công'
+			failureMessage='Tạo mới người dùng thất bại'
 			initialValues={initialValues}
 			validationSchema={validationSchema}
 			onCreate={onCreate}
-			successMessage='Tạo mới người dùng thành công'
-			failureMessage='Tạo mới người dùng thất bại'
 		>
 			<VStack gap={4}>
 				<FieldInput

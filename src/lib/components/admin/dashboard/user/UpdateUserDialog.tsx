@@ -1,27 +1,26 @@
 'use client';
 
-import { FieldInput, Table, useTableContext } from '@lib/components';
+import { FieldInput, Table } from '@lib/components';
 import * as Yup from 'yup';
-import { User } from '@lib/types';
-import { useState } from 'react';
+import { UpdateUserBody } from '@lib/types';
+import { UserClientService } from '@lib/services';
 
 const validationSchema = Yup.object().shape({
 	username: Yup.string().required('Tên tài khoản không được bỏ trống!')
 });
 
 export function UpdateUserDialog() {
-	const {} = useTableContext<User>();
-	const [initialValues, setInitialValues] = useState({
-		username: ''
-	});
-
-	const onUpdate = async (id: string, values: typeof initialValues) => {};
+	const onUpdate = async (id: string, values: UpdateUserBody) => {
+		return UserClientService.updateById(id, values);
+	};
 
 	return (
-		<Table.DialogUpdate
+		<Table.DialogUpdate<UpdateUserBody>
 			title='Cập nhật người dùng'
-			// validationSchema={validationSchema}
-			// onUpdate={onUpdate}
+			successMessage='Cập nhật người dùng thành công'
+			failureMessage='Cập nhật người dùng thất bại'
+			validationSchema={validationSchema}
+			onUpdate={onUpdate}
 		>
 			<FieldInput
 				id='username'

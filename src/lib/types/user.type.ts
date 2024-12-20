@@ -12,3 +12,7 @@ export type CreateUserBody = {
 	username: string;
 	password: string;
 };
+
+export type UpdateUserBody = {
+	username: string;
+};

@@ -1,4 +1,11 @@
-import { ApiResponse, CreateUserBody, ListUserParams, ServiceType, User } from '@lib/types';
+import {
+	ApiResponse,
+	CreateUserBody,
+	ListUserParams,
+	ServiceType,
+	UpdateUserBody,
+	User
+} from '@lib/types';
 import { BaseService } from '@lib/services';
 
 class UserService extends BaseService {
@@ -20,6 +27,10 @@ class UserService extends BaseService {
 
 	async delete(id: string): Promise<ApiResponse<User>> {
 		return this.axios.delete<ApiResponse<User>>(`/api/v1/users/${id}`);
+	}
+
+	async updateById(id: string, body: UpdateUserBody): Promise<ApiResponse<User>> {
+		return this.axios.patch<ApiResponse<User>>(`/api/v1/users/${id}`, body);
 	}
 }
 

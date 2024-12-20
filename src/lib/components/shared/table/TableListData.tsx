@@ -25,7 +25,6 @@ export function TableListData({ children, headers, keys }: DataProps) {
 
 	const onClickItem = (id: string) => {
 		setId(id);
-		fetchDetail(id);
 	};
 
 	return (

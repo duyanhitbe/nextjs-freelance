@@ -8,9 +8,9 @@ export function DeleteUserDialog() {
 
 	return (
 		<Table.DialogDelete
-			onDelete={onDelete}
 			successMessage='Xoá người dùng thành công'
 			failureMessage='Xoá người dùng thất bại'
+			onDelete={onDelete}
 		/>
 	);
 }

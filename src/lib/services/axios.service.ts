@@ -35,6 +35,26 @@ class AxiosService {
 		}
 	}
 
+	async patch<T>(path: string, body: any): Promise<T> {
+		try {
+			const { data } = await this.instance.patch<T>(path, body);
+			return data;
+		} catch (error: any) {
+			console.log(error.response?.data);
+			throw error;
+		}
+	}
+
+	async put<T>(path: string, body: any): Promise<T> {
+		try {
+			const { data } = await this.instance.put<T>(path, body);
+			return data;
+		} catch (error: any) {
+			console.log(error.response?.data);
+			throw error;
+		}
+	}
+
 	async delete<T>(path: string): Promise<T> {
 		try {
 			const { data } = await this.instance.delete<T>(path);

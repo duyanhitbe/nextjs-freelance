@@ -3,7 +3,7 @@ export type BaseEntity = {
 	createdAt: string;
 	updatedAt: string;
 	deletedAt?: string;
-	status: 'ACTIVE' | 'INACTIVE';
+	status: Status;
 };
 
 export type ServiceType = 'SERVER' | 'CLIENT';
@@ -20,3 +20,5 @@ export type NextRequestParams<T = any> = {
 export type NextRequestIdParams = {
 	params: Promise<{ id: string }>;
 };
+
+export type Status = 'ACTIVE' | 'INACTIVE';

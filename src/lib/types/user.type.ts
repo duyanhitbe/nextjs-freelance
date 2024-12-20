@@ -1,4 +1,4 @@
-import { BaseEntity, FetchDataParams } from '@lib/types';
+import { BaseEntity, FetchDataParams, Status } from '@lib/types';
 
 export type User = BaseEntity & {
 	username: string;
@@ -13,6 +13,7 @@ export type CreateUserBody = {
 	password: string;
 };
 
-export type UpdateUserBody = {
+export type UpdateUserBody = Partial<{
 	username: string;
-};
+	status: Status;
+}>

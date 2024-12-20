@@ -1,6 +1,6 @@
 'use client';
 
-import { ApiResponse, User } from '@lib/types';
+import { ApiResponse, Status, User } from '@lib/types';
 import { Table } from '@lib/components';
 import { UserClientService } from '@lib/services';
 import { USER_FILTERS, USER_HEADERS, USER_KEYS } from '@lib/constants';
@@ -9,13 +9,17 @@ import { DeleteUserDialog } from '@lib/components/admin/dashboard/user/DeleteUse
 import { UpdateUserDialog } from '@lib/components/admin/dashboard/user/UpdateUserDialog';
 
 type Props = {
-	data: ApiResponse<User[]>;
+	initialData: ApiResponse<User[]>;
 };
 
-export function UserTable({ data }: Props) {
+export function UserTable({ initialData }: Props) {
+	const onUpdateStatus = (id: string, status: Status) => {
+		return UserClientService.updateById(id, { status });
+	};
+
 	return (
 		<Table<User>
-			initialData={data}
+			initialData={initialData}
 			fetchData={(params) => UserClientService.find(params)}
 			fetchDetail={(id) => UserClientService.findById(id)}
 		>
@@ -28,6 +32,7 @@ export function UserTable({ data }: Props) {
 				<Table.ListData
 					headers={USER_HEADERS}
 					keys={USER_KEYS}
+					onUpdateStatus={onUpdateStatus}
 				>
 					<UpdateUserDialog />
 					<DeleteUserDialog />

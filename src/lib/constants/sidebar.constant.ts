@@ -1,4 +1,4 @@
-import { FiHome, FiUser } from 'react-icons/fi';
+import { FiCalendar, FiHome, FiUser } from 'react-icons/fi';
 
 export const SIDEBAR_ITEMS = [
 	{
@@ -8,7 +8,12 @@ export const SIDEBAR_ITEMS = [
 	},
 	{
 		path: 'user',
-		title: 'User',
+		title: 'Tài khoản',
 		icon: FiUser
+	},
+	{
+		path: 'event',
+		title: 'Sự kiện',
+		icon: FiCalendar
 	}
 ];

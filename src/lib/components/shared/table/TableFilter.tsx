@@ -1,15 +1,21 @@
 'use client';
+
 import { Container, Flex, For, Grid, Text } from '@chakra-ui/react';
-import { FloatInput, PrimaryButton, useTableContext } from '@lib/components';
+import {
+	FieldInput,
+	FieldSelect,
+	FieldSelectAsync,
+	PrimaryButton,
+	useTableContext
+} from '@lib/components';
 import { Filter } from '@lib/types';
-import { FormikHelpers, useFormik } from 'formik';
-import { ChangeEvent, PropsWithChildren } from 'react';
+import { Form, Formik, FormikHelpers, useFormik } from 'formik';
 
-type FilterProps = PropsWithChildren<{
+type FilterProps = {
 	filters: Filter[];
-}>;
+};
 
-export function TableFilter({ children, filters }: FilterProps) {
+export function TableFilter({ filters }: FilterProps) {
 	const { fetchData, limit, setPage } = useTableContext();
 	const initialValues = filters.reduce((prev, next) => {
 		return {
@@ -39,8 +45,11 @@ export function TableFilter({ children, filters }: FilterProps) {
 	};
 
 	return (
-		<>
-			<form onSubmit={formik.handleSubmit}>
+		<Formik
+			initialValues={initialValues}
+			onSubmit={onSubmit}
+		>
+			<Form>
 				<Container
 					bgColor='white'
 					borderRadius='5px'
@@ -58,8 +67,6 @@ export function TableFilter({ children, filters }: FilterProps) {
 								<TableFilterInput
 									key={filter.name}
 									filter={filter}
-									value={(formik.values as any)[filter.name]}
-									handleChange={formik.handleChange}
 								/>
 							)}
 						</For>
@@ -82,37 +89,55 @@ export function TableFilter({ children, filters }: FilterProps) {
 						</Flex>
 					</Flex>
 				</Container>
-			</form>
-			{children}
-		</>
+			</Form>
+		</Formik>
 	);
 }
 
 type TableFilterInputProps = {
 	filter: Filter;
-	handleChange: {
-		(e: ChangeEvent<any>): void;
-		<T = string | ChangeEvent<any>>(
-			field: T
-		): T extends ChangeEvent<any> ? void : (e: string | ChangeEvent<any>) => void;
-	};
-	value: any;
 };
 
-function TableFilterInput({ filter, value, handleChange }: TableFilterInputProps) {
-	const { type, name, placeholder } = filter;
+function TableFilterInput({ filter }: TableFilterInputProps) {
+	const { type, name, placeholder, collection, defaultValue, promise, fieldValue, fieldLabel } =
+		filter;
 
 	if (type === 'TEXT') {
 		return (
-			<FloatInput
+			<FieldInput
 				id={name}
 				name={name}
-				value={value}
-				onChange={handleChange}
-			>
-				{placeholder}
-			</FloatInput>
+				placeholder={placeholder}
+			/>
 		);
+	}
+
+	if (type === 'SELECT') {
+		if (collection) {
+			return (
+				<FieldSelect
+					id={name}
+					name={name}
+					collection={collection!}
+					defaultValue={defaultValue}
+					placeholder={placeholder}
+				/>
+			);
+		}
+
+		if (promise && fieldValue && fieldLabel) {
+			return (
+				<FieldSelectAsync
+					id={name}
+					name={name}
+					defaultValue={defaultValue}
+					placeholder={placeholder}
+					promise={promise}
+					fieldValue={fieldValue}
+					fieldLabel={fieldLabel}
+				/>
+			);
+		}
 	}
 
 	return <></>;

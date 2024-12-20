@@ -1,16 +1,20 @@
 'use client';
-import { Center, For, HStack, Spinner, Table as ChakraTable } from '@chakra-ui/react';
+
+import { Box, Center, For, HStack, Spinner, Table as ChakraTable } from '@chakra-ui/react';
 import { Table, useTableContext } from '@lib/components';
 import { get } from 'lodash';
 import { PropsWithChildren } from 'react';
+import { isISODate } from '@lib/helpers';
+import moment from 'moment';
 
 type DataProps = PropsWithChildren<{
 	headers: string[];
 	keys: string[];
+	onUpdateStatus?: (id: string, status: 'ACTIVE' | 'INACTIVE') => Promise<any>;
 }>;
 
-export function TableListData({ children, headers, keys }: DataProps) {
-	const { loadingData, data, setId, fetchDetail } = useTableContext();
+export function TableListData({ children, headers, keys, onUpdateStatus }: DataProps) {
+	const { loadingData, data, setId } = useTableContext();
 
 	if (loadingData) {
 		return (
@@ -27,6 +31,17 @@ export function TableListData({ children, headers, keys }: DataProps) {
 		setId(id);
 	};
 
+	const getItem = (item: any, key: string) => {
+		const result = get(item, key);
+		if (isISODate(result)) {
+			return moment(result).format('DD-MM-YYYY');
+		}
+		if (typeof result === 'number') {
+			return result.toLocaleString();
+		}
+		return result;
+	};
+
 	return (
 		<ChakraTable.Root
 			variant='outline'
@@ -36,11 +51,17 @@ export function TableListData({ children, headers, keys }: DataProps) {
 				<ChakraTable.Row>
 					<For each={headers}>
 						{(header) => (
-							<ChakraTable.ColumnHeader key={header}>
+							<ChakraTable.ColumnHeader
+								key={header}
+								fontWeight='600'
+							>
 								{header}
 							</ChakraTable.ColumnHeader>
 						)}
 					</For>
+					{onUpdateStatus && (
+						<ChakraTable.ColumnHeader>Trạng thái</ChakraTable.ColumnHeader>
+					)}
 					<ChakraTable.ColumnHeader>Hành động</ChakraTable.ColumnHeader>
 				</ChakraTable.Row>
 			</ChakraTable.Header>
@@ -49,8 +70,18 @@ export function TableListData({ children, headers, keys }: DataProps) {
 				{data.data.map((item: any) => (
 					<Table.Row key={get(item, 'id')}>
 						<For each={keys as string[]}>
-							{(key) => <Table.Cell key={key}>{get(item, key)}</Table.Cell>}
+							{(key) => <Table.Cell key={key}>{getItem(item, key)}</Table.Cell>}
 						</For>
+						{onUpdateStatus && (
+							<Table.Cell>
+								<Box onClick={() => setId(get(item, 'id'))}>
+									<Table.DialogUpdateStatus
+										status={getItem(item, 'status')}
+										onUpdateStatus={onUpdateStatus}
+									/>
+								</Box>
+							</Table.Cell>
+						)}
 						<Table.Cell>
 							<HStack
 								gap={1}

@@ -25,9 +25,11 @@ class AxiosService {
 		}
 	}
 
-	async post<T>(path: string, body: any): Promise<T> {
+	async post<T>(path: string, body: any, headers?: any): Promise<T> {
 		try {
-			const { data } = await this.instance.post<T>(path, body);
+			const { data } = await this.instance.post<T>(path, body, {
+				headers
+			});
 			return data;
 		} catch (error: any) {
 			console.log(error.response?.data);

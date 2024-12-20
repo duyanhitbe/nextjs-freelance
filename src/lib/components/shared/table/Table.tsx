@@ -20,6 +20,7 @@ import { TableFilter } from './TableFilter';
 import { TableList } from './TableList';
 import { TablePagination } from './TablePagination';
 import { TableTitle } from './TableTitle';
+import { TableDialogUpdateStatus } from '@lib/components/shared/table/TableDialogUpdateStatus';
 
 export type TableContextType<T = any> = {
 	loadingData: boolean;
@@ -114,5 +115,6 @@ Table.Pagination = TablePagination;
 Table.DialogCreate = TableDialogCreate;
 Table.DialogDelete = TableDialogDelete;
 Table.DialogUpdate = TableDialogUpdate;
+Table.DialogUpdateStatus = TableDialogUpdateStatus;
 Table.Row = ChakraTable.Row;
 Table.Cell = ChakraTable.Cell;

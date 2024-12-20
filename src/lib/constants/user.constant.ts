@@ -2,9 +2,9 @@ import { Filter, User } from '@lib/types';
 
 export const USER_FILTERS: Filter[] = [
 	{
-		name: 'username',
+		name: 'search',
 		type: 'TEXT',
-		placeholder: 'Tài khoản'
+		placeholder: 'Tên tài khoản'
 	}
 ];
 

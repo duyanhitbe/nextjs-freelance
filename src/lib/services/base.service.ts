@@ -1,5 +1,5 @@
 import { ServiceType } from '@lib/types';
-import { AxiosClientService, AxiosServerService } from '@lib/services/axios.service';
+import { AxiosClientService, AxiosServerService } from './axios.service';
 
 export class BaseService {
 	constructor(private readonly serviceType: ServiceType) {}

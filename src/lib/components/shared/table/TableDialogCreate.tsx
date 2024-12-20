@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, RefObject, useState } from 'react';
 import {
 	DialogActionTrigger,
 	DialogBody,
@@ -29,6 +29,7 @@ type DialogCreateProps = PropsWithChildren<{
 	onCreate: (values: any) => Promise<any>;
 	successMessage?: string;
 	failureMessage?: string;
+	ref?: RefObject<HTMLDivElement | null>;
 }>;
 
 export function TableDialogCreate({
@@ -39,7 +40,8 @@ export function TableDialogCreate({
 	validationSchema,
 	onCreate,
 	successMessage,
-	failureMessage
+	failureMessage,
+	ref
 }: DialogCreateProps) {
 	const { fetchData } = useTableContext();
 	const [loading, setLoading] = useState(false);
@@ -83,7 +85,7 @@ export function TableDialogCreate({
 								<FiPlus /> {title || 'Tạo mới'}
 							</PrimaryButton>
 						</DialogTrigger>
-						<DialogContent>
+						<DialogContent ref={ref}>
 							<DialogCloseTrigger />
 							<DialogHeader>
 								<DialogTitle>{dialogTitle || 'Tạo mới'}</DialogTitle>

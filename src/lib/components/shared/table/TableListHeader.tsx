@@ -1,3 +1,5 @@
+'use client';
+
 import { PropsWithChildren } from 'react';
 import { Flex, Text } from '@chakra-ui/react';
 import { DialogRoot } from '@lib/components';

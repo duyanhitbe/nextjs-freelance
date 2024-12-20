@@ -8,8 +8,8 @@ import { HTMLInputTypeAttribute } from 'react';
 type Props = {
 	id: string;
 	name: string;
-	label: string;
-	placeholder: string;
+	label?: string;
+	placeholder?: string;
 	required?: boolean;
 	type?: HTMLInputTypeAttribute;
 };

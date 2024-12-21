@@ -12,11 +12,11 @@ const initialValues = {
 	eventType: ENUM_EVENT_TYPE.EVENT,
 	image: '',
 	thumbnail: '',
-	description: '',
+	description: undefined,
 	displayPrice: 0,
 	isBanner: false,
 	order: 1,
-	location: ''
+	location: undefined
 };
 
 const validationSchema = Yup.object().shape({
@@ -29,6 +29,7 @@ export function CreateEventDialog() {
 	const dialogRef = useRef<HTMLDivElement>(null);
 
 	const onCreate = async (values: Values) => {
+		console.log(values);
 		return EventClientService.create(values);
 	};
 

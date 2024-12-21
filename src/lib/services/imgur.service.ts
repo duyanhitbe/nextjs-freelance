@@ -5,15 +5,9 @@ class ImgurService {
 		const formData = new FormData();
 		formData.append('image', file);
 
-		const data = await AxiosClientService.post<any>(
-			'https://api.imgur.com/3/upload',
-			formData,
-			{
-				Authorization: `Client-ID ${process.env.IMGUR_CLIENT_ID}`
-			}
-		);
-
-		return data.data?.link;
+		const data = await AxiosClientService.post<any>('/api/v1/upload', formData);
+		console.log(data);
+		return data?.link;
 	}
 }
 

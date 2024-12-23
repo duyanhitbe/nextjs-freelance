@@ -1,18 +1,19 @@
 'use client';
 
-import { createListCollection, HStack, VStack } from '@chakra-ui/react';
+import { Box, createListCollection, HStack, VStack } from '@chakra-ui/react';
 import {
 	FieldEditor,
 	FieldInput,
 	FieldSelect,
 	FieldSelectAsync,
+	FieldSwitch,
 	FieldUpload,
 	Table
 } from '@lib/components';
 import * as Yup from 'yup';
 import { ENUM_EVENT_TYPE, EventType } from '@lib/types';
 import { EventClientService, LocationClientService } from '@lib/services';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 const initialValues = {
 	name: '',
@@ -40,6 +41,7 @@ const validationSchema = Yup.object().shape({
 type Values = typeof initialValues;
 
 export function CreateEventDialog() {
+	const [isBanner, setIsBanner] = useState(false);
 	const dialogRef = useRef<HTMLDivElement>(null);
 
 	const onCreate = async (values: Values) => {
@@ -126,6 +128,32 @@ export function CreateEventDialog() {
 					label='Mô tả'
 					placeholder='Nhập mô tả'
 				/>
+				<HStack
+					gap={4}
+					width='100%'
+					alignItems='center'
+				>
+					<Box flex={1}>
+						<FieldSwitch
+							id='isBanner'
+							name='isBanner'
+							label='Sử dụng làm banner'
+							onChange={(value) => setIsBanner(value)}
+						/>
+					</Box>
+					<Box flex={1}>
+						{isBanner && (
+							<FieldInput
+								id='order'
+								name='order'
+								label='Thứ tự banner'
+								placeholder='Nhập thứ tự banner'
+								type='number'
+								required
+							/>
+						)}
+					</Box>
+				</HStack>
 			</VStack>
 		</Table.DialogCreate>
 	);

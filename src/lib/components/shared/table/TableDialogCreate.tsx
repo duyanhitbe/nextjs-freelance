@@ -30,6 +30,7 @@ type DialogCreateProps = PropsWithChildren<{
 	successMessage?: string;
 	failureMessage?: string;
 	ref?: RefObject<HTMLDivElement | null>;
+	onCancel?: () => void;
 }>;
 
 export function TableDialogCreate({
@@ -39,6 +40,7 @@ export function TableDialogCreate({
 	initialValues,
 	validationSchema,
 	onCreate,
+	onCancel,
 	successMessage,
 	failureMessage,
 	ref
@@ -78,6 +80,9 @@ export function TableDialogCreate({
 						onOpenChange={({ open }) => {
 							setOpen(open);
 							resetForm();
+							if (!open && onCancel) {
+								onCancel();
+							}
 						}}
 					>
 						<DialogTrigger asChild>

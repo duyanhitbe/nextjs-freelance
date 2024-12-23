@@ -45,7 +45,6 @@ export function CreateEventDialog() {
 	const dialogRef = useRef<HTMLDivElement>(null);
 
 	const onCreate = async (values: Values) => {
-		console.log(values);
 		return EventClientService.create(values);
 	};
 
@@ -58,6 +57,7 @@ export function CreateEventDialog() {
 			validationSchema={validationSchema}
 			onCreate={onCreate}
 			ref={dialogRef}
+			onCancel={() => setIsBanner(false)}
 		>
 			<VStack gap={4}>
 				<HStack
@@ -121,6 +121,7 @@ export function CreateEventDialog() {
 						fieldLabel='name'
 						fieldValue='name'
 						portalRef={dialogRef as any}
+						clearable
 					/>
 				</HStack>
 				<FieldEditor

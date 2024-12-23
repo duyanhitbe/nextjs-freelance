@@ -8,11 +8,11 @@ export async function GET(req: NextRequest, { params }: NextRequestIdParams) {
 	return NextResponse.json(data);
 }
 
-// export async function DELETE(req: NextRequest, { params }: NextRequestIdParams) {
-// 	const { id } = await params;
-// 	const data = await EventServerService.delete(id);
-// 	return NextResponse.json(data);
-// }
+export async function DELETE(req: NextRequest, { params }: NextRequestIdParams) {
+	const { id } = await params;
+	const data = await EventServerService.delete(id);
+	return NextResponse.json(data);
+}
 
 export async function PATCH(req: NextRequest, { params }: NextRequestIdParams) {
 	const { id } = await params;

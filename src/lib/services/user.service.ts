@@ -1,36 +1,11 @@
-import {
-	ApiResponse,
-	CreateUserBody,
-	ListUserParams,
-	ServiceType,
-	UpdateUserBody,
-	User
-} from '@lib/types';
+import { CreateUserBody, ListUserParams, ServiceType, UpdateUserBody, User } from '@lib/types';
 import { BaseService } from '@lib/services';
 
-class UserService extends BaseService {
+class UserService extends BaseService<User, ListUserParams, CreateUserBody, UpdateUserBody> {
+	path = '/api/v1/users';
+
 	constructor(private readonly type: ServiceType) {
 		super(type);
-	}
-
-	async find(params?: ListUserParams | string): Promise<ApiResponse<User[]>> {
-		return this.axios.get<ApiResponse<User[]>>('/api/v1/users', params);
-	}
-
-	async findById(id: string): Promise<ApiResponse<User>> {
-		return this.axios.get<ApiResponse<User>>(`/api/v1/users/${id}`);
-	}
-
-	async create(body: CreateUserBody): Promise<ApiResponse<User>> {
-		return this.axios.post<ApiResponse<User>>('/api/v1/users', body);
-	}
-
-	async delete(id: string): Promise<ApiResponse<User>> {
-		return this.axios.delete<ApiResponse<User>>(`/api/v1/users/${id}`);
-	}
-
-	async updateById(id: string, body: UpdateUserBody): Promise<ApiResponse<User>> {
-		return this.axios.patch<ApiResponse<User>>(`/api/v1/users/${id}`, body);
 	}
 }
 

@@ -1,10 +1,17 @@
 'use client';
 
 import { createListCollection, HStack, VStack } from '@chakra-ui/react';
-import { FieldInput, FieldSelect, FieldUpload, Table } from '@lib/components';
+import {
+	FieldEditor,
+	FieldInput,
+	FieldSelect,
+	FieldSelectAsync,
+	FieldUpload,
+	Table
+} from '@lib/components';
 import * as Yup from 'yup';
 import { ENUM_EVENT_TYPE, EventType } from '@lib/types';
-import { EventClientService } from '@lib/services';
+import { EventClientService, LocationClientService } from '@lib/services';
 import { useRef } from 'react';
 
 const initialValues = {
@@ -20,7 +27,14 @@ const initialValues = {
 };
 
 const validationSchema = Yup.object().shape({
-	name: Yup.string().required('Tên sự kiện không được bỏ trống!')
+	name: Yup.string().required('Tên sự kiện không được bỏ trống!'),
+	image: Yup.string().required('Ảnh sự kiện không được bỏ trống!'),
+	thumbnail: Yup.string().required('Logo sự kiện không được bỏ trống!'),
+	description: Yup.string().optional(),
+	displayPrice: Yup.number().min(1, 'Giá hiển thị phải lớn hơn 1'),
+	isBanner: Yup.boolean().optional(),
+	order: Yup.number().optional().min(1, 'Thứ tự hiển thị phải lớn hơn 1'),
+	location: Yup.string().optional()
 });
 
 type Values = typeof initialValues;
@@ -75,15 +89,42 @@ export function CreateEventDialog() {
 					id='image'
 					name='image'
 					label='Ảnh sự kiện'
-					placeholder='Nhập ảnh sự kiện'
+					placeholder='Tải ảnh sự kiện'
 					required
 				/>
 				<FieldUpload
 					id='thumbnail'
 					name='thumbnail'
 					label='Logo sự kiện'
-					placeholder='Nhập logo sự kiện'
+					placeholder='Tải ảnh logo sự kiện'
 					required
+				/>
+				<HStack
+					gap={4}
+					width='100%'
+				>
+					<FieldInput
+						id='displayPrice'
+						name='displayPrice'
+						label='Giá hiển thị'
+						placeholder='Nhập giá hiển thị'
+						type='number'
+						required
+					/>
+					<FieldSelectAsync
+						id='location'
+						name='location'
+						label='Địa điểm'
+						promise={() => LocationClientService.find().then((res) => res.data)}
+						fieldLabel='name'
+						fieldValue='name'
+						portalRef={dialogRef as any}
+					/>
+				</HStack>
+				<FieldEditor
+					name='description'
+					label='Mô tả'
+					placeholder='Nhập mô tả'
 				/>
 			</VStack>
 		</Table.DialogCreate>

@@ -1,5 +1,6 @@
-import type { Metadata } from 'next';
 import '../assets/css/globals.css';
+
+import type { Metadata } from 'next';
 import { PropsWithChildren } from 'react';
 import { Providers } from '@app/providers';
 import { Toaster } from '@lib/components';

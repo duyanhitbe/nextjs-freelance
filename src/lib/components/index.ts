@@ -24,10 +24,13 @@ export * from './chakra-ui/switch';
 export * from './chakra-ui/select';
 export * from './chakra-ui/file-upload';
 
-export * from './shared/table/Table';
 export * from './shared/button/PrimaryButton';
+
+export * from './shared/table/Table';
+
 export * from './shared/input/FloatInput';
 export * from './shared/input/FieldInput';
 export * from './shared/input/FieldSelect';
 export * from './shared/input/FieldSelectAsync';
 export * from './shared/input/FieldUpload';
+export * from './shared/input/FieldEditor';

@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, useEffect, useState } from 'react';
+import { PropsWithChildren, RefObject, useEffect, useState } from 'react';
 import {
 	DialogActionTrigger,
 	DialogBody,
@@ -13,10 +13,11 @@ import {
 	DialogTrigger,
 	errorToast,
 	PrimaryButton,
+	PrimarySpinner,
 	successToast,
 	useTableContext
 } from '@lib/components';
-import { Center, IconButton, Spinner } from '@chakra-ui/react';
+import { Center, IconButton } from '@chakra-ui/react';
 import { FiEdit3 } from 'react-icons/fi';
 import { Form, Formik, FormikHelpers } from 'formik';
 import { getAxiosError } from '@lib/helpers';
@@ -27,11 +28,13 @@ type DialogUpdateProps<T = any> = PropsWithChildren<{
 	onUpdate: (id: string, values: T) => Promise<any>;
 	successMessage?: string;
 	failureMessage?: string;
+	ref?: RefObject<HTMLDivElement | null>;
 }>;
 
 export function TableDialogUpdate<T = any>({
 	children,
 	title,
+	ref,
 	validationSchema,
 	onUpdate,
 	successMessage,
@@ -80,10 +83,13 @@ export function TableDialogUpdate<T = any>({
 					<FiEdit3 />
 				</IconButton>
 			</DialogTrigger>
-			<DialogContent minH='100px'>
+			<DialogContent
+				ref={ref}
+				minH='100px'
+			>
 				{!initialValues ? (
 					<Center minH='100px'>
-						<Spinner />
+						<PrimarySpinner />
 					</Center>
 				) : (
 					<Formik
@@ -108,7 +114,7 @@ export function TableDialogUpdate<T = any>({
 										</PrimaryButton>
 									</DialogActionTrigger>
 									<PrimaryButton onClick={() => submitForm()}>
-										{loading ? <Spinner /> : 'Lưu'}
+										{loading ? <PrimarySpinner /> : 'Lưu'}
 									</PrimaryButton>
 								</DialogFooter>
 							</Form>

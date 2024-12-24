@@ -135,6 +135,7 @@ function TableFilterInput({ filter }: TableFilterInputProps) {
 					promise={promise}
 					fieldValue={fieldValue}
 					fieldLabel={fieldLabel}
+					clearable
 				/>
 			);
 		}

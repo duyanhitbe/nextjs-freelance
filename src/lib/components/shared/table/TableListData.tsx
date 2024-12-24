@@ -1,7 +1,7 @@
 'use client';
 
-import { Box, Center, For, HStack, Spinner, Table as ChakraTable } from '@chakra-ui/react';
-import { Table, useTableContext } from '@lib/components';
+import { Box, Center, For, HStack, Table as ChakraTable } from '@chakra-ui/react';
+import { PrimarySpinner, Table, useTableContext } from '@lib/components';
 import { get } from 'lodash';
 import { PropsWithChildren } from 'react';
 import { isISODate } from '@lib/helpers';
@@ -19,10 +19,7 @@ export function TableListData({ children, headers, keys, onUpdateStatus }: DataP
 	if (loadingData) {
 		return (
 			<Center>
-				<Spinner
-					color='primary'
-					size='lg'
-				/>
+				<PrimarySpinner size='lg' />
 			</Center>
 		);
 	}

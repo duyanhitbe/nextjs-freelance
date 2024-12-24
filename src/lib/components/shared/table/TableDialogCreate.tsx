@@ -13,11 +13,11 @@ import {
 	DialogTrigger,
 	errorToast,
 	PrimaryButton,
+	PrimarySpinner,
 	successToast,
 	useTableContext
 } from '@lib/components';
 import { FiPlus } from 'react-icons/fi';
-import { Spinner } from '@chakra-ui/react';
 import { Form, Formik } from 'formik';
 import { getAxiosError } from '@lib/helpers';
 
@@ -101,7 +101,7 @@ export function TableDialogCreate({
 									<PrimaryButton variant='outline'>Huỷ bỏ</PrimaryButton>
 								</DialogActionTrigger>
 								<PrimaryButton onClick={() => submitForm()}>
-									{loading ? <Spinner /> : 'Lưu'}
+									{loading ? <PrimarySpinner /> : 'Lưu'}
 								</PrimaryButton>
 							</DialogFooter>
 						</DialogContent>

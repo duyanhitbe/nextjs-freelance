@@ -6,6 +6,7 @@ import { Table } from '@lib/components';
 import { EVENT_FILTERS, EVENT_HEADERS, EVENT_KEYS } from '@lib/constants';
 import { CreateEventDialog } from '@lib/components/admin/dashboard/event/CreateEventDialog';
 import { DeleteEventDialog } from './DeleteEventDialog';
+import { UpdateEventDialog } from './UpdateEventDialog';
 
 type Props = {
 	initialData: ApiResponse<Event[]>;
@@ -33,7 +34,7 @@ export function EventTable({ initialData }: Props) {
 					keys={EVENT_KEYS}
 					onUpdateStatus={onUpdateStatus}
 				>
-					{/*<UpdateUserDialog />*/}
+					<UpdateEventDialog />
 					<DeleteEventDialog />
 				</Table.ListData>
 				<Table.Pagination />

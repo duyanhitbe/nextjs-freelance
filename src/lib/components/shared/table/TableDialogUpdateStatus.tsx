@@ -10,10 +10,10 @@ import {
 	DialogRoot,
 	DialogTitle,
 	PrimaryButton,
+	PrimarySpinner,
 	Switch,
 	useTableContext
 } from '@lib/components';
-import { Spinner } from '@chakra-ui/react';
 import { useState } from 'react';
 
 type Props = {
@@ -71,7 +71,7 @@ export function TableDialogUpdateStatus({ status, onUpdateStatus }: Props) {
 						size='xs'
 						onClick={onClickUpdate}
 					>
-						{loading ? <Spinner /> : 'Cập nhật'}
+						{loading ? <PrimarySpinner /> : 'Cập nhật'}
 					</PrimaryButton>
 				</DialogFooter>
 				<DialogCloseTrigger />

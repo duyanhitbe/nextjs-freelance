@@ -35,3 +35,5 @@ export * from './shared/input/FieldSelectAsync';
 export * from './shared/input/FieldUpload';
 export * from './shared/input/FieldEditor';
 export * from './shared/input/FieldSwitch';
+
+export * from './shared/spinner/PrimarySpinner';

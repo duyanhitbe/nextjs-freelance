@@ -13,10 +13,11 @@ import {
 	DialogTitle,
 	DialogTrigger,
 	errorToast,
+	PrimarySpinner,
 	successToast,
 	useTableContext
 } from '@lib/components';
-import { IconButton, Spinner } from '@chakra-ui/react';
+import { IconButton } from '@chakra-ui/react';
 import { FiTrash } from 'react-icons/fi';
 import { getAxiosError } from '@lib/helpers';
 
@@ -91,7 +92,7 @@ export function TableDialogDelete({
 						colorPalette='red'
 						onClick={onClickDelete}
 					>
-						{loading ? <Spinner /> : 'Xoá'}
+						{loading ? <PrimarySpinner /> : 'Xoá'}
 					</Button>
 				</DialogFooter>
 				<DialogCloseTrigger />

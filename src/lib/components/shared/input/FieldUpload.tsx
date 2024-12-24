@@ -6,7 +6,8 @@ import {
 	FileInput,
 	FileUploadClearTrigger,
 	FileUploadRoot,
-	InputGroup
+	InputGroup,
+	PrimarySpinner
 } from '@lib/components';
 import { useField, useFormikContext } from 'formik';
 import { LuFileUp } from 'react-icons/lu';
@@ -22,17 +23,23 @@ type Props = {
 	required?: boolean;
 };
 
-export function FieldUpload({ label, required, ...props }: Props) {
+export function FieldUpload({ label, required, placeholder, ...props }: Props) {
 	const [image, setImage] = useState<File | null>(null);
 	const [field, meta] = useField(props);
 	const [previewUrl, setPreviewUrl] = useState('');
+	const [loading, setLoading] = useState(false);
 	const { setFieldValue } = useFormikContext();
 
 	useEffect(() => {
 		if (image) {
-			const previewURL = URL.createObjectURL(image);
-			setPreviewUrl(previewURL);
-			ImgurClientService.upload(image).then((link) => setFieldValue(props.name, link));
+			setLoading(true);
+			ImgurClientService.upload(image).then((link) => {
+				setFieldValue(props.name, link);
+				setPreviewUrl(link);
+				setLoading(false);
+			});
+		} else if (field.value) {
+			setPreviewUrl(field.value);
 		}
 	}, [image]);
 
@@ -71,17 +78,26 @@ export function FieldUpload({ label, required, ...props }: Props) {
 							</FileUploadClearTrigger>
 						}
 					>
-						<FileInput cursor='pointer' />
+						<FileInput
+							cursor='pointer'
+							fieldValue={field.value}
+							placeholder={placeholder}
+							loading={loading}
+						/>
 					</InputGroup>
 				</FileUploadRoot>
-				<Image
-					rounded='xs'
-					src={previewUrl || '/thumbnail.jpg'}
-					alt='Preview'
-					height={38}
-					width={38}
-					cursor='pointer'
-				/>
+				{loading ? (
+					<PrimarySpinner />
+				) : (
+					<Image
+						rounded='xs'
+						src={previewUrl || '/thumbnail.jpg'}
+						alt='Preview'
+						height={38}
+						width={38}
+						cursor='pointer'
+					/>
+				)}
 			</HStack>
 		</Field>
 	);

@@ -1,6 +1,5 @@
 'use client';
 
-import { Box, createListCollection, HStack, VStack } from '@chakra-ui/react';
 import {
 	FieldEditor,
 	FieldInput,
@@ -11,21 +10,10 @@ import {
 	Table
 } from '@lib/components';
 import * as Yup from 'yup';
-import { ENUM_EVENT_TYPE, EventType } from '@lib/types';
+import { ENUM_EVENT_TYPE, EventType, UpdateEventBody } from '@lib/types';
 import { EventClientService, LocationClientService } from '@lib/services';
+import { Box, createListCollection, HStack, VStack } from '@chakra-ui/react';
 import { useRef, useState } from 'react';
-
-const initialValues = {
-	name: '',
-	eventType: ENUM_EVENT_TYPE.EVENT,
-	image: '',
-	thumbnail: '',
-	description: undefined,
-	displayPrice: 0,
-	isBanner: false,
-	order: 1,
-	location: undefined
-};
 
 const validationSchema = Yup.object().shape({
 	name: Yup.string().required('Tên sự kiện không được bỏ trống!'),
@@ -38,26 +26,22 @@ const validationSchema = Yup.object().shape({
 	location: Yup.string().optional()
 });
 
-type Values = typeof initialValues;
-
-export function CreateEventDialog() {
+export function UpdateEventDialog() {
 	const [isBanner, setIsBanner] = useState(false);
 	const dialogRef = useRef<HTMLDivElement>(null);
 
-	const onCreate = async (values: Values) => {
-		return EventClientService.create(values);
+	const onUpdate = async (id: string, values: UpdateEventBody) => {
+		return EventClientService.updateById(id, values);
 	};
 
 	return (
-		<Table.DialogCreate
-			dialogTitle='Tạo sự kiện'
-			successMessage='Tạo mới sự kiện thành công'
-			failureMessage='Tạo mới sự kiện thất bại'
-			initialValues={initialValues}
+		<Table.DialogUpdate<UpdateEventBody>
+			title='Cập nhật sự kiện'
+			successMessage='Cập nhật sự kiện thành công'
+			failureMessage='Cập nhật sự kiện thất bại'
 			validationSchema={validationSchema}
-			onCreate={onCreate}
+			onUpdate={onUpdate}
 			ref={dialogRef}
-			onCancel={() => setIsBanner(false)}
 		>
 			<VStack gap={4}>
 				<HStack
@@ -157,6 +141,6 @@ export function CreateEventDialog() {
 					</Box>
 				</HStack>
 			</VStack>
-		</Table.DialogCreate>
+		</Table.DialogUpdate>
 	);
 }

@@ -1,0 +1,4 @@
+export enum ENUM_DATE_TYPE {
+	FIXED = 'FIXED',
+	DURATION = 'DURATION'
+}

@@ -1,5 +1,6 @@
 'use client';
 
+import { Box, createListCollection, HStack, VStack } from '@chakra-ui/react';
 import {
 	FieldEditor,
 	FieldInput,
@@ -9,11 +10,12 @@ import {
 	FieldUpload,
 	Table
 } from '@lib/components';
-import * as Yup from 'yup';
-import { ENUM_EVENT_TYPE, EventType, UpdateEventBody } from '@lib/types';
+import { ENUM_EVENT_TYPE } from '@lib/enums';
 import { EventClientService, LocationClientService } from '@lib/services';
-import { Box, createListCollection, HStack, VStack } from '@chakra-ui/react';
+import { UpdateEventBody } from '@lib/types';
 import { useRef, useState } from 'react';
+import * as Yup from 'yup';
+import { EventType } from '@lib/constants';
 
 const validationSchema = Yup.object().shape({
 	name: Yup.string().required('Tên sự kiện không được bỏ trống!'),

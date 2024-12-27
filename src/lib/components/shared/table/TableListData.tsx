@@ -1,19 +1,26 @@
 'use client';
 
-import { Box, Center, For, HStack, Table as ChakraTable } from '@chakra-ui/react';
+import { Box, Center, For, HStack, Link, Table as ChakraTable } from '@chakra-ui/react';
 import { PrimarySpinner, Table, useTableContext } from '@lib/components';
+import { ENUM_STATUS } from '@lib/enums';
 import { get } from 'lodash';
-import { PropsWithChildren } from 'react';
-import { isISODate } from '@lib/helpers';
 import moment from 'moment';
+import NextLink from 'next/link';
+import { PropsWithChildren } from 'react';
+import { TableField } from '../../../types';
 
-type DataProps = PropsWithChildren<{
+type DataProps<T> = PropsWithChildren<{
 	headers: string[];
-	keys: string[];
-	onUpdateStatus?: (id: string, status: 'ACTIVE' | 'INACTIVE') => Promise<any>;
+	fields: TableField<T>[];
+	onUpdateStatus?: (id: string, status: ENUM_STATUS) => Promise<any>;
 }>;
 
-export function TableListData({ children, headers, keys, onUpdateStatus }: DataProps) {
+export function TableListData<T = any>({
+	children,
+	headers,
+	fields,
+	onUpdateStatus
+}: DataProps<T>) {
 	const { loadingData, data, setId } = useTableContext();
 
 	if (loadingData) {
@@ -28,12 +35,15 @@ export function TableListData({ children, headers, keys, onUpdateStatus }: DataP
 		setId(id);
 	};
 
-	const getItem = (item: any, key: string) => {
-		const result = get(item, key);
-		if (isISODate(result)) {
+	const getItem = (item: any, field: TableField<T>) => {
+		const result = get(item, field.key);
+		if (field.transform) {
+			return field.transform(result, item);
+		}
+		if (field.type === 'date') {
 			return moment(result).format('DD-MM-YYYY');
 		}
-		if (typeof result === 'number') {
+		if (field.type === 'number') {
 			return result.toLocaleString();
 		}
 		return result;
@@ -66,14 +76,30 @@ export function TableListData({ children, headers, keys, onUpdateStatus }: DataP
 			<ChakraTable.Body>
 				{data.data.map((item: any) => (
 					<Table.Row key={get(item, 'id')}>
-						<For each={keys as string[]}>
-							{(key) => <Table.Cell key={key}>{getItem(item, key)}</Table.Cell>}
-						</For>
+						{fields.map((field) => (
+							<Table.Cell key={field.key as string}>
+								{field.type === 'link' ? (
+									<Link
+										asChild
+										colorPalette='primary'
+									>
+										<NextLink href={field.link ? field.link(item) : ''}>
+											{getItem(item, field)}
+										</NextLink>
+									</Link>
+								) : (
+									getItem(item, field)
+								)}
+							</Table.Cell>
+						))}
 						{onUpdateStatus && (
 							<Table.Cell>
 								<Box onClick={() => setId(get(item, 'id'))}>
 									<Table.DialogUpdateStatus
-										status={getItem(item, 'status')}
+										status={getItem(item, {
+											key: 'status' as keyof T,
+											type: 'boolean'
+										})}
 										onUpdateStatus={onUpdateStatus}
 									/>
 								</Box>

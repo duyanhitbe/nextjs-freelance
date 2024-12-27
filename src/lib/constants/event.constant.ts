@@ -1,6 +1,14 @@
-import { ENUM_EVENT_TYPE, Event, EventType, Filter } from '@lib/types';
+import { Event, Filter, TableField } from '@lib/types';
 import { createListCollection } from '@chakra-ui/react';
 import { LocationClientService } from '@lib/services';
+import { ENUM_EVENT_TYPE } from '../enums';
+
+export const EventType: Record<ENUM_EVENT_TYPE, string> = {
+	[ENUM_EVENT_TYPE.EVENT]: 'Sự kiện nổi bật',
+	[ENUM_EVENT_TYPE.PARK]: 'Công viên',
+	[ENUM_EVENT_TYPE.VOUCHER]: 'Voucher',
+	[ENUM_EVENT_TYPE.OTHER]: 'Khác'
+};
 
 export const EVENT_FILTERS: Filter[] = [
 	{
@@ -40,11 +48,29 @@ export const EVENT_HEADERS: string[] = [
 	'Ngày cập nhật gần nhất'
 ];
 
-export const EVENT_KEYS: (keyof Event)[] = [
-	'name',
-	'eventTypeName',
-	'displayPrice',
-	'location',
-	'createdAt',
-	'updatedAt'
+export const EVENT_FIELDS: TableField<Event>[] = [
+	{
+		key: 'name',
+		type: 'link',
+		link: (item) => `/admin/dashboard/events?eventId=${item.id}`
+	},
+	{
+		key: 'eventType',
+		transform: (value: ENUM_EVENT_TYPE) => EventType[value]
+	},
+	{
+		key: 'displayPrice',
+		type: 'number'
+	},
+	{
+		key: 'location'
+	},
+	{
+		key: 'createdAt',
+		type: 'date'
+	},
+	{
+		key: 'updatedAt',
+		type: 'date'
+	}
 ];

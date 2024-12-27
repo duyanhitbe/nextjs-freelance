@@ -14,11 +14,12 @@ import {
 	Switch,
 	useTableContext
 } from '@lib/components';
+import { ENUM_STATUS } from '@lib/enums';
 import { useState } from 'react';
 
 type Props = {
-	status: 'ACTIVE' | 'INACTIVE';
-	onUpdateStatus?: (id: string, status: 'ACTIVE' | 'INACTIVE') => Promise<any>;
+	status: ENUM_STATUS;
+	onUpdateStatus?: (id: string, status: ENUM_STATUS) => Promise<any>;
 };
 
 export function TableDialogUpdateStatus({ status, onUpdateStatus }: Props) {
@@ -29,7 +30,8 @@ export function TableDialogUpdateStatus({ status, onUpdateStatus }: Props) {
 	const onClickUpdate = () => {
 		setLoading(true);
 		if (onUpdateStatus) {
-			const updatedStatus = status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
+			const updatedStatus =
+				status === ENUM_STATUS.ACTIVE ? ENUM_STATUS.INACTIVE : ENUM_STATUS.ACTIVE;
 			onUpdateStatus(id, updatedStatus).then(() => {
 				setLoading(false);
 				setOpen(false);
@@ -47,7 +49,7 @@ export function TableDialogUpdateStatus({ status, onUpdateStatus }: Props) {
 			onOpenChange={({ open }) => setOpen(open)}
 		>
 			<Switch
-				checked={status === 'ACTIVE'}
+				checked={status === ENUM_STATUS.ACTIVE}
 				colorPalette='blue'
 				onClick={() => setOpen(true)}
 			/>

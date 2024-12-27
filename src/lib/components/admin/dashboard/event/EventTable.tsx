@@ -1,10 +1,11 @@
 'use client';
 
-import { ApiResponse, Event } from '@lib/types';
-import { EventClientService } from '@lib/services';
 import { Table } from '@lib/components';
-import { EVENT_FILTERS, EVENT_HEADERS, EVENT_KEYS } from '@lib/constants';
 import { CreateEventDialog } from '@lib/components/admin/dashboard/event/CreateEventDialog';
+import { EVENT_FIELDS, EVENT_FILTERS, EVENT_HEADERS } from '@lib/constants';
+import { ENUM_STATUS } from '@lib/enums';
+import { EventClientService } from '@lib/services';
+import { ApiResponse, Event } from '@lib/types';
 import { DeleteEventDialog } from './DeleteEventDialog';
 import { UpdateEventDialog } from './UpdateEventDialog';
 
@@ -13,7 +14,7 @@ type Props = {
 };
 
 export function EventTable({ initialData }: Props) {
-	const onUpdateStatus = (id: string, status: 'ACTIVE' | 'INACTIVE') => {
+	const onUpdateStatus = (id: string, status: ENUM_STATUS) => {
 		return EventClientService.updateById(id, { status });
 	};
 
@@ -31,7 +32,7 @@ export function EventTable({ initialData }: Props) {
 				</Table.ListHeader>
 				<Table.ListData
 					headers={EVENT_HEADERS}
-					keys={EVENT_KEYS}
+					fields={EVENT_FIELDS}
 					onUpdateStatus={onUpdateStatus}
 				>
 					<UpdateEventDialog />

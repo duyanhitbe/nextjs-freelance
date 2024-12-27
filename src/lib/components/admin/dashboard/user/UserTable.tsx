@@ -1,19 +1,20 @@
 'use client';
 
-import { ApiResponse, Status, User } from '@lib/types';
 import { Table } from '@lib/components';
-import { UserClientService } from '@lib/services';
-import { USER_FILTERS, USER_HEADERS, USER_KEYS } from '@lib/constants';
 import { CreateUserDialog } from '@lib/components/admin/dashboard/user/CreateUserDialog';
 import { DeleteUserDialog } from '@lib/components/admin/dashboard/user/DeleteUserDialog';
 import { UpdateUserDialog } from '@lib/components/admin/dashboard/user/UpdateUserDialog';
+import { USER_FIELDS, USER_FILTERS, USER_HEADERS } from '@lib/constants';
+import { ENUM_STATUS } from '@lib/enums';
+import { UserClientService } from '@lib/services';
+import { ApiResponse, User } from '@lib/types';
 
 type Props = {
 	initialData: ApiResponse<User[]>;
 };
 
 export function UserTable({ initialData }: Props) {
-	const onUpdateStatus = (id: string, status: Status) => {
+	const onUpdateStatus = (id: string, status: ENUM_STATUS) => {
 		return UserClientService.updateById(id, { status });
 	};
 
@@ -31,7 +32,7 @@ export function UserTable({ initialData }: Props) {
 				</Table.ListHeader>
 				<Table.ListData
 					headers={USER_HEADERS}
-					keys={USER_KEYS}
+					fields={USER_FIELDS}
 					onUpdateStatus={onUpdateStatus}
 				>
 					<UpdateUserDialog />

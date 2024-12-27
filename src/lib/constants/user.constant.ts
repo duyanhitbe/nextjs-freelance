@@ -1,4 +1,4 @@
-import { Filter, User } from '@lib/types';
+import { Filter, TableField, User } from '@lib/types';
 
 export const USER_FILTERS: Filter[] = [
 	{
@@ -10,4 +10,8 @@ export const USER_FILTERS: Filter[] = [
 
 export const USER_HEADERS: string[] = ['Tên tài khoản', 'Ngày tạo', 'Ngày cập nhật gần nhất'];
 
-export const USER_KEYS: (keyof User)[] = ['username', 'createdAt', 'updatedAt'];
+export const USER_FIELDS: TableField<User>[] = [
+	{ key: 'username' },
+	{ key: 'createdAt', type: 'date' },
+	{ key: 'updatedAt', type: 'date' }
+];

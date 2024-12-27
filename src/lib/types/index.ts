@@ -4,3 +4,5 @@ export * from './response.type';
 export * from './user.type';
 export * from './event.type';
 export * from './location.type';
+export * from './ticket-group.type';
+export * from './ticket-info.type';

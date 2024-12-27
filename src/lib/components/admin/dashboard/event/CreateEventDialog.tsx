@@ -10,10 +10,11 @@ import {
 	FieldUpload,
 	Table
 } from '@lib/components';
-import * as Yup from 'yup';
-import { ENUM_EVENT_TYPE, EventType } from '@lib/types';
+import { ENUM_EVENT_TYPE } from '@lib/enums';
 import { EventClientService, LocationClientService } from '@lib/services';
+import { EventType } from '@lib/constants';
 import { useRef, useState } from 'react';
+import * as Yup from 'yup';
 
 const initialValues = {
 	name: '',

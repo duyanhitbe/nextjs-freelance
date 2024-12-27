@@ -25,6 +25,7 @@ export * from './chakra-ui/select';
 export * from './chakra-ui/file-upload';
 
 export * from './shared/button/PrimaryButton';
+export * from './shared/button/BackButton';
 
 export * from './shared/table/Table';
 

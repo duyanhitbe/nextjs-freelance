@@ -23,7 +23,7 @@ export function PrimaryButton({
 		<Button
 			type={type}
 			size={size}
-			variant='outline'
+			variant={variant}
 			color={!isOutline ? 'white' : undefined}
 			bgColor={!isOutline ? 'primary' : undefined}
 			_hover={{

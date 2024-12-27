@@ -1,0 +1,4 @@
+export enum ENUM_DISCOUNT_TYPE {
+	FIXED = 'FIXED',
+	PERCENTAGE = 'PERCENTAGE'
+}

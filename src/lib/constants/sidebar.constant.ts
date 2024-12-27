@@ -7,12 +7,12 @@ export const SIDEBAR_ITEMS = [
 		icon: FiHome
 	},
 	{
-		path: 'user',
+		path: 'users',
 		title: 'Tài khoản',
 		icon: FiUser
 	},
 	{
-		path: 'event',
+		path: 'events',
 		title: 'Sự kiện',
 		icon: FiCalendar
 	}

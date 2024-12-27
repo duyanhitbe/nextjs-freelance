@@ -1,4 +1,5 @@
-import { BaseEntity, FetchDataParams, Status } from '@lib/types';
+import { BaseEntity, FetchDataParams } from '@lib/types';
+import { ENUM_STATUS } from '../enums';
 
 export type User = BaseEntity & {
 	username: string;
@@ -15,5 +16,5 @@ export type CreateUserBody = {
 
 export type UpdateUserBody = Partial<{
 	username: string;
-	status: Status;
-}>
+	status: ENUM_STATUS;
+}>;

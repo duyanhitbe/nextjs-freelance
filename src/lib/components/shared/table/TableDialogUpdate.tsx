@@ -114,7 +114,7 @@ export function TableDialogUpdate<T = any>({
 										</PrimaryButton>
 									</DialogActionTrigger>
 									<PrimaryButton onClick={() => submitForm()}>
-										{loading ? <PrimarySpinner /> : 'Lưu'}
+										{loading ? <PrimarySpinner color='white' /> : 'Lưu'}
 									</PrimaryButton>
 								</DialogFooter>
 							</Form>

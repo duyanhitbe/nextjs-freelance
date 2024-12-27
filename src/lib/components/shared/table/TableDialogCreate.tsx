@@ -101,7 +101,7 @@ export function TableDialogCreate({
 									<PrimaryButton variant='outline'>Huỷ bỏ</PrimaryButton>
 								</DialogActionTrigger>
 								<PrimaryButton onClick={() => submitForm()}>
-									{loading ? <PrimarySpinner /> : 'Lưu'}
+									{loading ? <PrimarySpinner color='white' /> : 'Lưu'}
 								</PrimaryButton>
 							</DialogFooter>
 						</DialogContent>

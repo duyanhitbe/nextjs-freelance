@@ -10,7 +10,7 @@ import {
 	SelectValueText
 } from '@lib/components';
 import { useField, useFormikContext } from 'formik';
-import { RefObject } from 'react';
+import { RefObject, useEffect } from 'react';
 
 type Props = {
 	id: string;
@@ -22,6 +22,7 @@ type Props = {
 	portalRef?: RefObject<HTMLDivElement>;
 	clearable?: boolean;
 	required?: boolean;
+	onChange?: (value: any) => void;
 };
 
 export const FieldSelect = ({
@@ -32,10 +33,17 @@ export const FieldSelect = ({
 	portalRef,
 	clearable = true,
 	required,
+	onChange,
 	...props
 }: Props) => {
 	const [field, meta] = useField(props);
 	const { setFieldValue } = useFormikContext<any>();
+
+	useEffect(() => {
+		if (defaultValue) {
+			setFieldValue(field.name, defaultValue);
+		}
+	}, []);
 
 	return (
 		<Field
@@ -55,6 +63,9 @@ export const FieldSelect = ({
 				onBlur={field.onBlur}
 				onValueChange={({ value }) => {
 					setFieldValue(props.name, value[0] || null);
+					if (onChange) {
+						onChange(value[0]);
+					}
 				}}
 			>
 				<SelectTrigger clearable={clearable}>

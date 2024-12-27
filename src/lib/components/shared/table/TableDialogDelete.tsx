@@ -92,7 +92,7 @@ export function TableDialogDelete({
 						colorPalette='red'
 						onClick={onClickDelete}
 					>
-						{loading ? <PrimarySpinner /> : 'Xoá'}
+						{loading ? <PrimarySpinner color='white' /> : 'Xoá'}
 					</Button>
 				</DialogFooter>
 				<DialogCloseTrigger />

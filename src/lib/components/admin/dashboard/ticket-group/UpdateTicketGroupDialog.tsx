@@ -1,49 +1,32 @@
 'use client';
 
+import { createListCollection, HStack, VStack } from '@chakra-ui/react';
 import { FieldDate, FieldEditor, FieldInput, FieldSelect, Table } from '@lib/components';
+import { ENUM_DATE_TYPE } from '@lib/enums';
 import { TicketGroupClientService } from '@lib/services';
+import { UpdateTicketGroupBody } from '@lib/types';
 import { useRef, useState } from 'react';
 import * as Yup from 'yup';
-import { createListCollection, HStack, VStack } from '@chakra-ui/react';
-import { ENUM_DATE_TYPE } from '../../../../enums';
-import { DateType } from '../../../../constants';
+import { DateType } from '@lib/constants';
 
-const initialValues = {
-	name: '',
-	description: undefined,
-	dateType: ENUM_DATE_TYPE.DURATION,
-	fromDate: new Date(),
-	toDate: new Date()
-};
+const validationSchema = Yup.object().shape({});
 
-const validationSchema = Yup.object().shape({
-	name: Yup.string().required('Tên nhóm vé không được bỏ trống')
-});
-
-type Values = typeof initialValues;
-
-type Props = {
-	eventId: string;
-};
-
-export function CreateTicketGroupDialog({ eventId }: Props) {
+export function UpdateTicketGroupDialog() {
 	const [dateType, setDateType] = useState<ENUM_DATE_TYPE>(ENUM_DATE_TYPE.DURATION);
 	const dialogRef = useRef<HTMLDivElement>(null);
 
-	const onCreate = async (values: Values) => {
-		return TicketGroupClientService.create({ ...values, eventId });
+	const onUpdate = async (id: string, values: UpdateTicketGroupBody) => {
+		return TicketGroupClientService.updateById(id, values);
 	};
 
 	return (
-		<Table.DialogCreate
-			dialogTitle='Tạo nhóm vé'
-			successMessage='Tạo mới nhóm vé thành công'
-			failureMessage='Tạo mới nhóm vé thất bại'
-			initialValues={initialValues}
+		<Table.DialogUpdate<UpdateTicketGroupBody>
+			title='Cập nhật nhóm vé'
+			successMessage='Cập nhật nhóm vé thành công'
+			failureMessage='Cập nhật nhóm vé thất bại'
 			validationSchema={validationSchema}
-			onCreate={onCreate}
+			onUpdate={onUpdate}
 			ref={dialogRef}
-			onCancel={() => setDateType(ENUM_DATE_TYPE.DURATION)}
 		>
 			<VStack gap={4}>
 				<HStack
@@ -103,6 +86,6 @@ export function CreateTicketGroupDialog({ eventId }: Props) {
 					placeholder='Nhập mô tả'
 				/>
 			</VStack>
-		</Table.DialogCreate>
+		</Table.DialogUpdate>
 	);
 }

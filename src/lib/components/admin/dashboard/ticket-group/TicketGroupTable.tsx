@@ -6,6 +6,8 @@ import { ENUM_STATUS } from '@lib/enums';
 import { TicketGroupClientService } from '@lib/services';
 import { ApiResponse, TicketGroup } from '@lib/types';
 import { CreateTicketGroupDialog } from './CreateTicketGroupDialog';
+import { DeleteTicketGroupDialog } from './DeleteTicketGroupDialog';
+import { UpdateTicketGroupDialog } from './UpdateTicketGroupDialog';
 
 type Props = {
 	initialData: ApiResponse<TicketGroup[]>;
@@ -35,7 +37,10 @@ export function TicketGroupTable({ initialData, eventId }: Props) {
 						headers={TICKET_GROUP_HEADERS}
 						fields={TICKET_GROUP_FIELDS}
 						onUpdateStatus={onUpdateStatus}
-					></Table.ListData>
+					>
+						<UpdateTicketGroupDialog />
+						<DeleteTicketGroupDialog />
+					</Table.ListData>
 					<Table.Pagination />
 				</Table.List>
 			</Table>

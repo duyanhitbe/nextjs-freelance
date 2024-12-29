@@ -8,6 +8,7 @@ import { UpdateTicketGroupBody } from '@lib/types';
 import { useRef, useState } from 'react';
 import * as Yup from 'yup';
 import { DateType } from '@lib/constants';
+import { set } from 'lodash';
 
 const validationSchema = Yup.object().shape({});
 
@@ -16,6 +17,9 @@ export function UpdateTicketGroupDialog() {
 	const dialogRef = useRef<HTMLDivElement>(null);
 
 	const onUpdate = async (id: string, values: UpdateTicketGroupBody) => {
+		if (values.dates) {
+			set(values, 'dates', values.dates.map((d) => new Date(d)) as any[]);
+		}
 		return TicketGroupClientService.updateById(id, values);
 	};
 
@@ -49,7 +53,6 @@ export function UpdateTicketGroupDialog() {
 								value: item
 							}))
 						})}
-						defaultValue={ENUM_DATE_TYPE.DURATION}
 						label='Loại thời gian nhóm vé'
 						placeholder='Loại thời gian nhóm vé'
 						portalRef={dialogRef as any}
@@ -79,6 +82,16 @@ export function UpdateTicketGroupDialog() {
 							required
 						/>
 					</HStack>
+				)}
+				{dateType === ENUM_DATE_TYPE.FIXED && (
+					<FieldDate
+						id='dates'
+						name='dates'
+						label='Ngày diễn ra sự kiện'
+						placeholder='Nhập ngày diễn ra sự kiện'
+						required
+						multiple
+					/>
 				)}
 				<FieldEditor
 					name='description'

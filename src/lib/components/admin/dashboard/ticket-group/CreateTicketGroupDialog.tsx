@@ -7,13 +7,15 @@ import * as Yup from 'yup';
 import { createListCollection, HStack, VStack } from '@chakra-ui/react';
 import { ENUM_DATE_TYPE } from '../../../../enums';
 import { DateType } from '../../../../constants';
+import { set } from 'lodash';
 
 const initialValues = {
 	name: '',
 	description: undefined,
 	dateType: ENUM_DATE_TYPE.DURATION,
-	fromDate: new Date(),
-	toDate: new Date()
+	fromDate: undefined,
+	toDate: undefined,
+	dates: []
 };
 
 const validationSchema = Yup.object().shape({
@@ -31,6 +33,9 @@ export function CreateTicketGroupDialog({ eventId }: Props) {
 	const dialogRef = useRef<HTMLDivElement>(null);
 
 	const onCreate = async (values: Values) => {
+		if (values.dates) {
+			set(values, 'dates', values.dates.map((d) => new Date(d)) as any[]);
+		}
 		return TicketGroupClientService.create({ ...values, eventId });
 	};
 
@@ -96,6 +101,16 @@ export function CreateTicketGroupDialog({ eventId }: Props) {
 							required
 						/>
 					</HStack>
+				)}
+				{dateType === ENUM_DATE_TYPE.FIXED && (
+					<FieldDate
+						id='dates'
+						name='dates'
+						label='Ngày diễn ra sự kiện'
+						placeholder='Nhập ngày diễn ra sự kiện'
+						required
+						multiple
+					/>
 				)}
 				<FieldEditor
 					name='description'

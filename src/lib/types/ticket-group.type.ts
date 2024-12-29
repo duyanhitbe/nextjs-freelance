@@ -20,4 +20,5 @@ export type CreateTicketGroupBody = {};
 
 export type UpdateTicketGroupBody = {
 	status: ENUM_STATUS;
+	dates?: string[];
 };

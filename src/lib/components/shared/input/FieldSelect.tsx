@@ -43,6 +43,9 @@ export const FieldSelect = ({
 		if (defaultValue) {
 			setFieldValue(field.name, defaultValue);
 		}
+		if (onChange) {
+			onChange(field.value);
+		}
 	}, []);
 
 	return (

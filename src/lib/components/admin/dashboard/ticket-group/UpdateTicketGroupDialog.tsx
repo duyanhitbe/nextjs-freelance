@@ -10,7 +10,9 @@ import * as Yup from 'yup';
 import { DateType } from '@lib/constants';
 import { set } from 'lodash';
 
-const validationSchema = Yup.object().shape({});
+const validationSchema = Yup.object().shape({
+	name: Yup.string().required('Tên nhóm vé không được bỏ trống')
+});
 
 export function UpdateTicketGroupDialog() {
 	const [dateType, setDateType] = useState<ENUM_DATE_TYPE>(ENUM_DATE_TYPE.DURATION);

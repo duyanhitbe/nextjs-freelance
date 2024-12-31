@@ -73,7 +73,7 @@ export function TableDialogUpdateStatus({ status, onUpdateStatus }: Props) {
 						size='xs'
 						onClick={onClickUpdate}
 					>
-						{loading ? <PrimarySpinner /> : 'Cập nhật'}
+						{loading ? <PrimarySpinner color='white' /> : 'Cập nhật'}
 					</PrimaryButton>
 				</DialogFooter>
 				<DialogCloseTrigger />

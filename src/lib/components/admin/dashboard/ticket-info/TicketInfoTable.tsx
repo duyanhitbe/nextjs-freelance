@@ -5,6 +5,9 @@ import { TICKET_INFO_FIELDS, TICKET_INFO_FILTERS, TICKET_INFO_HEADERS } from '@l
 import { ENUM_STATUS } from '@lib/enums';
 import { TicketInfoClientService } from '@lib/services';
 import { ApiResponse, TicketInfo } from '@lib/types';
+import { CreateTicketInfoDialog } from './CreateTicketInfoDialog';
+import { DeleteTicketInfoDialog } from './DeleteTicketInfoDialog';
+import { UpdateTicketInfoDialog } from './UpdateTicketInfoDialog';
 
 type Props = {
 	initialData: ApiResponse<TicketInfo[]>;
@@ -26,12 +29,17 @@ export function TicketInfoTable({ initialData, ticketGroupId }: Props) {
 			<Table.Title>Thông tin vé</Table.Title>
 			<Table.Filter filters={TICKET_INFO_FILTERS} />
 			<Table.List>
-				<Table.ListHeader title='Danh sách vé'></Table.ListHeader>
+				<Table.ListHeader title='Danh sách vé'>
+					<CreateTicketInfoDialog ticketGroupId={ticketGroupId} />
+				</Table.ListHeader>
 				<Table.ListData
 					headers={TICKET_INFO_HEADERS}
 					fields={TICKET_INFO_FIELDS}
 					onUpdateStatus={onUpdateStatus}
-				></Table.ListData>
+				>
+					<UpdateTicketInfoDialog />
+					<DeleteTicketInfoDialog />
+				</Table.ListData>
 				<Table.Pagination />
 			</Table.List>
 		</Table>

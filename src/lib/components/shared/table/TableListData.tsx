@@ -1,6 +1,15 @@
 'use client';
 
-import { Box, Center, For, HStack, Link, Table as ChakraTable } from '@chakra-ui/react';
+import {
+	Box,
+	Center,
+	For,
+	HStack,
+	Link,
+	Table as ChakraTable,
+	Text,
+	VStack
+} from '@chakra-ui/react';
 import { PrimarySpinner, Table, useTableContext } from '@lib/components';
 import { ENUM_STATUS } from '@lib/enums';
 import { get } from 'lodash';
@@ -8,6 +17,7 @@ import moment from 'moment';
 import NextLink from 'next/link';
 import { PropsWithChildren } from 'react';
 import { TableField } from '../../../types';
+import { FiPackage } from 'react-icons/fi';
 
 type DataProps<T> = PropsWithChildren<{
 	headers: string[];
@@ -48,6 +58,22 @@ export function TableListData<T = any>({
 		}
 		return result;
 	};
+
+	if (data.data.length === 0) {
+		return (
+			<Center color='gray.300'>
+				<VStack>
+					<FiPackage size={100} />
+					<Text
+						fontSize='2xl'
+						fontWeight='550'
+					>
+						Không có dữ liệu
+					</Text>
+				</VStack>
+			</Center>
+		);
+	}
 
 	return (
 		<ChakraTable.Root

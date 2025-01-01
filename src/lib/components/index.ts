@@ -23,6 +23,8 @@ export * from './chakra-ui/tooltip';
 export * from './chakra-ui/switch';
 export * from './chakra-ui/select';
 export * from './chakra-ui/file-upload';
+export * from './chakra-ui/empty-state';
+export * from './chakra-ui/menu';
 
 export * from './shared/button/PrimaryButton';
 export * from './shared/button/BackButton';

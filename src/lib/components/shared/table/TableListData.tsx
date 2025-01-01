@@ -1,16 +1,7 @@
 'use client';
 
-import {
-	Box,
-	Center,
-	For,
-	HStack,
-	Link,
-	Table as ChakraTable,
-	Text,
-	VStack
-} from '@chakra-ui/react';
-import { PrimarySpinner, Table, useTableContext } from '@lib/components';
+import { Box, Center, For, HStack, Link, Table as ChakraTable } from '@chakra-ui/react';
+import { EmptyState, PrimarySpinner, Table, useTableContext } from '@lib/components';
 import { ENUM_STATUS } from '@lib/enums';
 import { get } from 'lodash';
 import moment from 'moment';
@@ -61,17 +52,11 @@ export function TableListData<T = any>({
 
 	if (data.data.length === 0) {
 		return (
-			<Center color='gray.300'>
-				<VStack>
-					<FiPackage size={100} />
-					<Text
-						fontSize='2xl'
-						fontWeight='550'
-					>
-						Không có dữ liệu
-					</Text>
-				</VStack>
-			</Center>
+			<EmptyState
+				icon={<FiPackage />}
+				title='Không có dữ liệu'
+				description='Hiện tại không có dữ liệu để hiển thị. Vui lòng thêm mới hoặc kiểm tra lại các bộ lọc tìm kiếm'
+			/>
 		);
 	}
 

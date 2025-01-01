@@ -6,3 +6,4 @@ export * from './event.type';
 export * from './location.type';
 export * from './ticket-group.type';
 export * from './ticket-info.type';
+export * from './auth.type';

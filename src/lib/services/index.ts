@@ -6,3 +6,4 @@ export * from './location.service';
 export * from './imgur.service';
 export * from './ticket-group.service';
 export * from './ticket-info.service';
+export * from './auth.service';

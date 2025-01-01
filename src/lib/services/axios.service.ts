@@ -7,8 +7,13 @@ class AxiosService {
 
 	private get instance() {
 		const baseURL = this.type === 'SERVER' ? process.env.BACKEND_URL : process.env.FRONTEND_URL;
+		const headers: any = {};
 
-		return axios.create({ baseURL });
+		if (this.type === 'CLIENT') {
+			headers['Authorization'] = `Bearer ${localStorage.getItem('userAccessToken')}`;
+		}
+
+		return axios.create({ baseURL, headers });
 	}
 
 	async get<T>(path: string, params?: any): Promise<T> {
@@ -17,6 +22,7 @@ class AxiosService {
 		}
 		if (!params) params = '';
 		try {
+			console.log(`${path}?${params}`);
 			const { data } = await this.instance.get<T>(`${path}?${params}`);
 			return data;
 		} catch (error: any) {

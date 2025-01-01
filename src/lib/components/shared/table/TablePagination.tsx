@@ -23,8 +23,9 @@ export function TablePagination({}: PaginationProps) {
 	};
 
 	const onLimitChange = (limit: number) => {
+		setPage(1);
 		setLimit(limit);
-		fetchData({ page, limit });
+		fetchData({ page: 1, limit });
 	};
 
 	return (

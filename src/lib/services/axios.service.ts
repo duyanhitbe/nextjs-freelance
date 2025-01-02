@@ -16,14 +16,15 @@ class AxiosService {
 		return axios.create({ baseURL, headers });
 	}
 
-	async get<T>(path: string, params?: any): Promise<T> {
+	async get<T>(path: string, params?: any, headers?: any): Promise<T> {
 		if (params && typeof params !== 'string') {
 			params = qs.stringify(params);
 		}
 		if (!params) params = '';
 		try {
-			console.log(`${path}?${params}`);
-			const { data } = await this.instance.get<T>(`${path}?${params}`);
+			const { data } = await this.instance.get<T>(`${path}?${params}`, {
+				headers
+			});
 			return data;
 		} catch (error: any) {
 			console.log(error.response?.data);

@@ -5,10 +5,10 @@ export default async function Page() {
 	const cookieStore = await cookies();
 	const session = cookieStore.get('session');
 
-	if (!session) {
-		redirect('/admin/login');
-	} else {
+	if (session) {
 		redirect(`/admin/dashboard`);
+	} else {
+		redirect(`/admin/login`);
 	}
 
 	return <></>;

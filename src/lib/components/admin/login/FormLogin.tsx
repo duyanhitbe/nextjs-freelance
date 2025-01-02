@@ -7,6 +7,8 @@ import { PrimaryButton } from '../../shared/button/PrimaryButton';
 import * as Yup from 'yup';
 import { AuthClientService } from '../../../services';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { PrimarySpinner } from '../../shared/spinner/PrimarySpinner';
 
 const initialValues = {
 	username: '',
@@ -19,9 +21,11 @@ const validationSchema = Yup.object().shape({
 });
 
 export function FormLogin() {
+	const [loading, setLoading] = useState(false);
 	const router = useRouter();
 
 	const onSubmit = (values: typeof initialValues) => {
+		setLoading(true);
 		AuthClientService.loginUser(values.username, values.password).then((res) => {
 			localStorage.setItem('userAccessToken', res.data.accessToken);
 			router.replace('/admin/dashboard');
@@ -60,7 +64,7 @@ export function FormLogin() {
 						variant='solid'
 						type='submit'
 					>
-						Đăng nhập
+						{loading ? <PrimarySpinner color='white' /> : 'Đăng nhập'}
 					</PrimaryButton>
 				</Card.Footer>
 			</Form>

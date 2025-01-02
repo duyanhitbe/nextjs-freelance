@@ -25,6 +25,8 @@ export * from './chakra-ui/select';
 export * from './chakra-ui/file-upload';
 export * from './chakra-ui/empty-state';
 export * from './chakra-ui/menu';
+export * from './chakra-ui/password-input';
+export * from './chakra-ui/rating';
 
 export * from './shared/button/PrimaryButton';
 export * from './shared/button/BackButton';
@@ -39,5 +41,6 @@ export * from './shared/input/FieldUpload';
 export * from './shared/input/FieldEditor';
 export * from './shared/input/FieldSwitch';
 export * from './shared/input/FieldDate';
+export * from './shared/input/FieldRating';
 
 export * from './shared/spinner/PrimarySpinner';

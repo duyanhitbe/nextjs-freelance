@@ -14,7 +14,7 @@ export const EVENT_FILTERS: Filter[] = [
 	{
 		name: 'search',
 		type: 'TEXT',
-		placeholder: 'Tên sự kiện'
+		placeholder: 'Tên sự kiện | Địa điểm'
 	},
 	{
 		name: 'eventType',

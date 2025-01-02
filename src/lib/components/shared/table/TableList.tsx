@@ -2,13 +2,10 @@
 
 import { PropsWithChildren } from 'react';
 import { Container } from '@chakra-ui/react';
-import { useTableContext } from './Table';
 
 type ListProps = PropsWithChildren<{}>;
 
 export function TableList({ children }: ListProps) {
-	const { data } = useTableContext();
-
 	return (
 		<Container
 			bgColor='white'

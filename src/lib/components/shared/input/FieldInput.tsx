@@ -1,7 +1,7 @@
 'use client';
 
 import { Input } from '@chakra-ui/react';
-import { Field } from '@lib/components';
+import { Field, PasswordInput } from '@lib/components';
 import { useField } from 'formik';
 import { HTMLInputTypeAttribute } from 'react';
 
@@ -24,13 +24,23 @@ export function FieldInput({ label, required, type, ...props }: Props) {
 			errorText={meta.error}
 			invalid={Boolean(meta.touched && meta.error)}
 		>
-			<Input
-				{...field}
-				{...props}
-				type={type}
-				colorPalette='primary'
-				autoComplete='new-password'
-			/>
+			{type === 'password' ? (
+				<PasswordInput
+					{...field}
+					{...props}
+					type={type}
+					colorPalette='primary'
+					autoComplete='new-password'
+				/>
+			) : (
+				<Input
+					{...field}
+					{...props}
+					type={type}
+					colorPalette='primary'
+					autoComplete='new-password'
+				/>
+			)}
 		</Field>
 	);
 }

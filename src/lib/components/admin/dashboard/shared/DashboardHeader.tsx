@@ -1,8 +1,26 @@
+'use client';
+
 import { Flex, HStack, Text } from '@chakra-ui/react';
 import { Avatar, Button, MenuContent, MenuItem, MenuRoot, MenuTrigger } from '@lib/components';
 import { FiLogOut, FiUser } from 'react-icons/fi';
+import { AuthClientService } from '../../../../services';
+import { useRouter } from 'next/navigation';
+import { User } from '../../../../types';
 
-export function DashboardHeader() {
+type Props = {
+	user?: User;
+};
+
+export function DashboardHeader({ user }: Props) {
+	const router = useRouter();
+
+	const onLogout = () => {
+		AuthClientService.logout().then(() => {
+			localStorage.removeItem('userAccessToken');
+			router.replace('/admin/login');
+		});
+	};
+
 	return (
 		<Flex
 			as='header'
@@ -34,12 +52,11 @@ export function DashboardHeader() {
 							p={0}
 						>
 							<Avatar
-								name='Duy Anh'
-								src='https://bit.ly/sage-adebayo'
+								name={user?.username}
 								cursor='pointer'
 							/>
 						</Button>
-						<Text fontSize='sm'>Duy Anh</Text>
+						<Text fontSize='sm'>{user?.username}</Text>
 					</HStack>
 				</MenuTrigger>
 				<MenuContent>
@@ -52,6 +69,7 @@ export function DashboardHeader() {
 					<MenuItem
 						value='logout'
 						cursor='pointer'
+						onClick={onLogout}
 					>
 						<FiLogOut /> Đăng xuất
 					</MenuItem>

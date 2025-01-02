@@ -1,10 +1,23 @@
 import { DashboardHeader, DashboardSidebar } from '@lib/components';
 import { PropsWithChildren } from 'react';
 import { Box, Flex } from '@chakra-ui/react';
+import { cookies, headers } from 'next/headers';
+import { redirect } from 'next/navigation';
+import { AuthServerService } from '@lib/services';
 
 type Props = Readonly<PropsWithChildren>;
 
-export default function DashboardLayout({ children }: Props) {
+export default async function DashboardLayout({ children }: Props) {
+	const cookieStore = await cookies();
+	const session = cookieStore.get('session');
+	const headersObj = await headers();
+
+	if (!session) {
+		redirect(`/admin/login`);
+	}
+
+	const userData = await AuthServerService.getUserInfo(headersObj);
+
 	return (
 		<Flex minH='100vh'>
 			<DashboardSidebar />
@@ -13,7 +26,7 @@ export default function DashboardLayout({ children }: Props) {
 				flex='1'
 				direction='column'
 			>
-				<DashboardHeader />
+				<DashboardHeader user={userData.data} />
 
 				<Box
 					as='main'

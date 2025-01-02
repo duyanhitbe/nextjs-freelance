@@ -1,4 +1,4 @@
-import { ApiResponse, LoginUserResponse, ServiceType } from '../types';
+import { ApiResponse, LoginUserResponse, ServiceType, User } from '../types';
 import { AxiosClientService, AxiosServerService } from './axios.service';
 
 class AuthService {
@@ -13,6 +13,14 @@ class AuthService {
 			username,
 			password
 		});
+	}
+
+	async logout(): Promise<ApiResponse<string>> {
+		return this.axios.post<ApiResponse<string>>('/api/v1/auth/logout', {});
+	}
+
+	async getUserInfo(headers?: any): Promise<ApiResponse<User>> {
+		return this.axios.get<ApiResponse<User>>('/api/v1/auth/user', {}, headers);
 	}
 }
 

@@ -4,6 +4,7 @@ import { Box, createListCollection, HStack, VStack } from '@chakra-ui/react';
 import {
 	FieldEditor,
 	FieldInput,
+	FieldRating,
 	FieldSelect,
 	FieldSelectAsync,
 	FieldSwitch,
@@ -25,7 +26,8 @@ const initialValues = {
 	displayPrice: 0,
 	isBanner: false,
 	order: 1,
-	location: undefined
+	location: undefined,
+	ratingStar: 5
 };
 
 const validationSchema = Yup.object().shape({
@@ -131,6 +133,7 @@ export function CreateEventDialog() {
 					label='Mô tả'
 					placeholder='Nhập mô tả'
 				/>
+
 				<HStack
 					gap={4}
 					width='100%'
@@ -157,6 +160,14 @@ export function CreateEventDialog() {
 						)}
 					</Box>
 				</HStack>
+				<FieldRating
+					id='ratingStar'
+					name='ratingStar'
+					label='Đánh giá'
+					placeholder='Nhập đánh giá'
+					center
+					size='lg'
+				/>
 			</VStack>
 		</Table.DialogCreate>
 	);

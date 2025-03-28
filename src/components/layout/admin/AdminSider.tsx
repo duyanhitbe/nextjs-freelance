@@ -1,60 +1,34 @@
 'use client';
 import React, { useState } from 'react';
-import {
-	ApartmentOutlined,
-	CalendarOutlined,
-	DollarOutlined,
-	IdcardOutlined,
-	ScheduleOutlined,
-	ShopOutlined,
-	ShoppingCartOutlined,
-	TagsOutlined,
-	TeamOutlined,
-	UnorderedListOutlined,
-	UsergroupAddOutlined,
-	UserOutlined,
-	UserSwitchOutlined
-} from '@ant-design/icons';
 import { Flex, Layout, Menu, Typography } from 'antd';
+import { useRouter } from 'next/navigation';
+import { MENU } from '@app/constants';
+import { useAdminPage } from '@app/hooks';
+import { Menu as MenuType } from '@app/types';
 
 const { Sider } = Layout;
 
 type MenuItem = Required<React.ComponentProps<typeof Menu>>['items'][number];
 
-function getItem(
-	label: React.ReactNode,
-	key: React.Key,
-	icon?: React.ReactNode,
-	children?: MenuItem[]
-): MenuItem {
+function getItem(menu: MenuType): MenuItem {
 	return {
-		key,
-		icon,
-		children,
-		label
+		key: menu.key,
+		icon: <menu.icon />,
+		label: menu.label,
+		children: menu.children?.map((item) => getItem(item))
 	} as MenuItem;
 }
 
 // Sidebar Menu Items
-const items: MenuItem[] = [
-	getItem('Quản trị viên', 'user', <UserOutlined />),
-	getItem('Khách hàng', 'customer', <UserSwitchOutlined />),
-	getItem('Quản lý đại lý', 'agency', <TeamOutlined />, [
-		getItem('Cấp đại lý', 'agency-level', <ApartmentOutlined />),
-		getItem('Đại lý', 'agencies', <ShopOutlined />),
-		getItem('Tài khoản đại lý', 'agency-user', <UsergroupAddOutlined />)
-	]),
-	getItem('Quản lý sự kiện', 'event', <CalendarOutlined />, [
-		getItem('Sự kiện', 'events', <ScheduleOutlined />),
-		getItem('Nhóm vé', 'ticket-group', <TagsOutlined />),
-		getItem('Loại vé', 'ticket-info', <IdcardOutlined />),
-		getItem('Giá vé', 'ticket-price', <DollarOutlined />),
-		getItem('Danh sách vé', 'tickets', <UnorderedListOutlined />)
-	]),
-	getItem('Đơn hàng', 'order', <ShoppingCartOutlined />)
-];
+const items: MenuItem[] = MENU.map((menu) => getItem(menu));
 
-export function AdminSider() {
+type Props = {
+	setSelectedPageAction: React.Dispatch<React.SetStateAction<string>>;
+};
+
+export function AdminSider({ setSelectedPageAction }: Props) {
+	const currentPage = useAdminPage();
+	const router = useRouter();
 	const [collapsed, setCollapsed] = useState(false);
 
 	return (
@@ -76,7 +50,11 @@ export function AdminSider() {
 			</Flex>
 			<Menu
 				theme='light'
-				defaultSelectedKeys={['1']}
+				defaultSelectedKeys={[currentPage]}
+				onSelect={({ key }) => {
+					setSelectedPageAction(key);
+					router.push(`/admin/${key}`);
+				}}
 				mode='inline'
 				items={items}
 			/>

@@ -19,7 +19,7 @@ async function getPath(request: NextRequest, params: Params): Promise<string> {
 	const query = getQuery(request);
 	const pathParams = await getPathParams(params);
 	const prefix = process.env.API_URL || '';
-	return prefix + pathParams.join('/') + '?' + query;
+	return prefix + '/api/' + pathParams.join('/') + '?' + query;
 }
 
 async function getBody(request: NextRequest): Promise<Record<string, any>> {

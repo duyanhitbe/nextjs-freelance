@@ -1,8 +1,8 @@
 'use client';
 import React, { PropsWithChildren } from 'react';
 import { Box } from '@app/components';
-import { Col, Input, Row, Tooltip, Typography } from 'antd';
-import { InfoCircleOutlined } from '@ant-design/icons';
+import { Button, Col, Flex, Input, Row, Tooltip, Typography } from 'antd';
+import { InfoCircleOutlined, RedoOutlined, SearchOutlined } from '@ant-design/icons';
 
 type AdminFilterProps = PropsWithChildren;
 type SearchProps = {
@@ -11,7 +11,29 @@ type SearchProps = {
 };
 
 export function AdminFilter({ children }: AdminFilterProps) {
-	return <Box>{children}</Box>;
+	return (
+		<Box>
+			{children}
+			<Flex
+				justify='flex-end'
+				style={{ marginTop: '10px' }}
+				gap='10px'>
+				<Button
+					variant='outlined'
+					icon={<RedoOutlined />}
+					iconPosition='start'>
+					Làm mới
+				</Button>
+				<Button
+					color='primary'
+					variant='solid'
+					icon={<SearchOutlined />}
+					iconPosition='start'>
+					Tìm kiếm
+				</Button>
+			</Flex>
+		</Box>
+	);
 }
 
 function Search({ placeholder, tooltip }: SearchProps) {

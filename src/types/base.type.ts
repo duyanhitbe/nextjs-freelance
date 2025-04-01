@@ -25,3 +25,9 @@ export type BasePaginatedResponse<T> = {
 	data: T[];
 	meta?: Meta;
 };
+
+export type BaseFilter = {
+	page?: number;
+	limit?: number;
+	search?: string;
+};

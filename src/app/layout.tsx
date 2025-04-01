@@ -1,8 +1,7 @@
 import '@ant-design/v5-patch-for-react-19';
 import './globals.css';
 import type { Metadata } from 'next';
-import { AntdRegistry } from '@ant-design/nextjs-registry';
-import { ConfigProvider } from 'antd';
+import { Providers } from '@app/app/provider';
 
 export const metadata: Metadata = {
 	title: 'Create Next App',
@@ -17,20 +16,7 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body>
-				<AntdRegistry>
-					<ConfigProvider
-						theme={{
-							components: {
-								Layout: {
-									siderBg: 'white',
-									triggerBg: 'white',
-									triggerColor: 'black'
-								}
-							}
-						}}>
-						{children}
-					</ConfigProvider>
-				</AntdRegistry>
+				<Providers>{children}</Providers>
 			</body>
 		</html>
 	);

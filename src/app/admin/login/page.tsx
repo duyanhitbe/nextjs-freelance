@@ -1,5 +1,5 @@
 import { Card, Flex } from 'antd';
-import { LoginForm } from '@app/components';
+import { LoginForm } from '@components/admin/login/LoginForm';
 
 export default function Page() {
 	return (

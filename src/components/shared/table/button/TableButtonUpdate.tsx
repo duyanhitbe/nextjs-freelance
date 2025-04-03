@@ -1,14 +1,14 @@
-import { useAdminTableContext } from '@app/components/admin/table/AdminTableContext';
 import { Button } from 'antd';
 import { EditOutlined } from '@ant-design/icons';
 import React from 'react';
+import { useTableContext } from '../TableProvider';
 
 type Props = {
 	id: string;
 };
 
-export function AdminTableUpdateButton({ id }: Props) {
-	const { setOpenModalUpdate, handleFetchDetail } = useAdminTableContext();
+export function TableButtonUpdate({ id }: Props) {
+	const { setOpenModalUpdate, handleFetchDetail } = useTableContext();
 
 	const handleClick = () => {
 		setOpenModalUpdate(true);

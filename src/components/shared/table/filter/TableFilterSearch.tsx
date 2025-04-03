@@ -1,15 +1,15 @@
 import { Col, Input, Tooltip, Typography } from 'antd';
 import { InfoCircleOutlined } from '@ant-design/icons';
 import React from 'react';
-import { useAdminTableContext } from '@app/components';
+import { useTableContext } from '../TableProvider';
 
-type SearchProps = {
+type Props = {
 	placeholder?: string;
 	tooltip?: string;
 };
 
-export function AdminTableSearchInput({ placeholder, tooltip }: SearchProps) {
-	const { filter, setFilter } = useAdminTableContext();
+export function TableFilterSearch({ placeholder, tooltip }: Props) {
+	const { filter, setFilter } = useTableContext();
 
 	const handleChange = (value: string) => {
 		setFilter((prev) => ({ ...prev, search: value }));
@@ -19,6 +19,7 @@ export function AdminTableSearchInput({ placeholder, tooltip }: SearchProps) {
 		<Col span={6}>
 			<Typography.Text>Tìm kiếm theo</Typography.Text>
 			<Input
+				allowClear
 				value={filter['search']}
 				onChange={(e) => handleChange(e.target.value)}
 				placeholder={placeholder}

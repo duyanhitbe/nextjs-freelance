@@ -1,13 +1,10 @@
-import { useAdminTableContext } from '@app/components/admin/table/AdminTableContext';
 import { Button, Flex, Row } from 'antd';
 import { RedoOutlined, SearchOutlined } from '@ant-design/icons';
 import React, { PropsWithChildren } from 'react';
-import { AdminTableSearchInput } from './AdminTableSearchInput';
-import { AdminTableSelect } from './AdminTableSelect';
-import { AdminTableFilterDateRange } from './AdminTableFilterDateRange';
+import { useTableContext } from '../TableProvider';
 
-export function AdminTableFilter({ children }: PropsWithChildren) {
-	const { handleFetch, handleReset } = useAdminTableContext();
+export function TableFilter({ children }: PropsWithChildren) {
+	const { handleFetch, handleReset } = useTableContext();
 
 	return (
 		<>
@@ -41,7 +38,3 @@ export function AdminTableFilter({ children }: PropsWithChildren) {
 		</>
 	);
 }
-
-AdminTableFilter.SearchInput = AdminTableSearchInput;
-AdminTableFilter.Select = AdminTableSelect;
-AdminTableFilter.DateRange = AdminTableFilterDateRange;

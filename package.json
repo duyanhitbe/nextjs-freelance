@@ -14,13 +14,15 @@
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
     "@tanstack/react-query": "^5.70.0",
     "antd": "^5.24.0",
+    "antd-style": "^3.7.1",
     "axios": "^1.7.9",
     "dayjs": "^1.11.13",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
     "next": "15.1.7",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-quill-new": "^3.4.6"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

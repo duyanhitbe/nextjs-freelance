@@ -1,0 +1,45 @@
+.custom-quill .ql-container {
+    border-radius: 0 0 6px 6px;
+    border: 1px solid #d9d9d9;
+    background: #fff;
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.3s;
+}
+
+.focused {
+    .ql-container {
+        border-color: #40a9ff !important;
+    }
+
+    .ql-toolbar {
+        border-color: #40a9ff !important;
+    }
+}
+
+.custom-quill:hover {
+    .ql-container {
+        border-color: #40a9ff;
+    }
+
+    .ql-toolbar {
+        border-color: #40a9ff;
+    }
+}
+
+.custom-quill .ql-container.ql-snow {
+    min-height: 150px;
+    padding: 8px;
+}
+
+.custom-quill .ql-toolbar {
+    border-radius: 6px 6px 0 0;
+    border: 1px solid #d9d9d9;
+    background: #fafafa;
+    transition: border-color 0.3s;
+}
+
+.custom-quill .ql-editor {
+    min-height: 120px;
+    border-radius: 0 0 6px 6px;
+    padding: 10px;
+}

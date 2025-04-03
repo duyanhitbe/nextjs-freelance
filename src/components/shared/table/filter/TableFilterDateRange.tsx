@@ -1,16 +1,16 @@
 import { Col, DatePicker, Typography } from 'antd';
 import React from 'react';
-import { useAdminTableContext } from '@app/components';
 import dayjs from 'dayjs';
+import { useTableContext } from '../TableProvider';
 
-type AdminTableFilterRangeProps = {
+type Props = {
 	label: string;
 	name: string;
 	clearable?: boolean;
 };
 
-export function AdminTableFilterDateRange({ label, name, clearable }: AdminTableFilterRangeProps) {
-	const { filter, setFilter } = useAdminTableContext();
+export function TableFilterDateRange({ label, name, clearable }: Props) {
+	const { filter, setFilter } = useTableContext();
 	const startKey = name + 'From';
 	const endKey = name + 'To';
 	const start = (filter as any)[startKey];

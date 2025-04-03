@@ -1,10 +1,10 @@
-import { useAdminTableContext } from '@app/components/admin/table/AdminTableContext';
 import { Button, Flex } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import React from 'react';
+import { useTableContext } from '../TableProvider';
 
-export function AdminTableCreateButton() {
-	const { setOpenModalCreate } = useAdminTableContext();
+export function TableButtonCreate() {
+	const { setOpenModalCreate } = useTableContext();
 
 	return (
 		<Flex

@@ -1,14 +1,15 @@
 'use client';
-import { Col, Select, Typography } from 'antd';
+import { Col, Flex, Select } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useAdminTableContext } from '@app/components';
+import { useTableContext } from '../TableProvider';
+import { TableFormLabel } from './TableFormLabel';
 
 type Data = {
 	value: string;
 	label: string;
 };
 
-type AdminTableSelectProps = {
+type Props = {
 	name: string;
 	placeholder: string;
 	label: string;
@@ -21,9 +22,11 @@ type AdminTableSelectProps = {
 	promise?: () => Promise<{ data: any[] }>;
 	labelField?: string;
 	valueField?: string;
+	span?: number;
+	required?: boolean;
 };
 
-export function AdminTableSelect({
+export function TableFormSelect({
 	searchable = true,
 	optionFilterProp = 'label',
 	data = [],
@@ -35,20 +38,18 @@ export function AdminTableSelect({
 	onChange,
 	promise,
 	labelField,
-	valueField
-}: AdminTableSelectProps) {
-	const { filter, setFilter } = useAdminTableContext();
+	valueField,
+	span = 24,
+	required
+}: Props) {
+	const { formData, setFormData } = useTableContext();
 	const [options, setOptions] = useState<Data[]>(data || []);
 
 	const handleChange = (value: string | string[]) => {
-		setFilter((prev) => ({ ...prev, [name]: value }));
+		setFormData((prev: any) => ({ ...prev, [name]: value }));
 		if (onChange) {
 			onChange(value);
 		}
-	};
-
-	const handleSearch = (value: string | string[]) => {
-		console.log('search:', value);
 	};
 
 	useEffect(() => {
@@ -64,22 +65,30 @@ export function AdminTableSelect({
 	}, [promise, labelField, valueField]);
 
 	return (
-		<Col span={6}>
-			<Typography.Text>{label}</Typography.Text>
-			<div style={{ width: '100%' }}>
-				<Select
-					style={{ width: '100%' }}
-					value={(filter as any)[name]}
-					allowClear={clearable}
-					mode={multiple ? 'multiple' : undefined}
-					showSearch={!!searchable}
-					placeholder={placeholder}
-					optionFilterProp={optionFilterProp}
-					onChange={handleChange}
-					onSearch={handleSearch}
-					options={options}
+		<Col
+			span={span}
+			style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}>
+			<Flex
+				vertical
+				gap={5}>
+				<TableFormLabel
+					label={label}
+					required={required}
 				/>
-			</div>
+				<div style={{ width: '100%' }}>
+					<Select
+						style={{ width: '100%' }}
+						value={(formData as any)[name]}
+						allowClear={clearable}
+						mode={multiple ? 'multiple' : undefined}
+						showSearch={!!searchable}
+						placeholder={placeholder}
+						optionFilterProp={optionFilterProp}
+						onChange={handleChange}
+						options={options}
+					/>
+				</div>
+			</Flex>
 		</Col>
 	);
 }

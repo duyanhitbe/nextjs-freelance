@@ -1,8 +1,12 @@
 'use client';
 import React, { useState } from 'react';
 import { Layout } from 'antd';
-import { AdminContent, AdminFooter, AdminHeader, AdminSider } from '@app/components';
+
 import { useAdminPage } from '@app/hooks';
+import { AdminSider } from '@components/layout/admin/AdminSider';
+import { AdminHeader } from '@components/layout/admin/AdminHeader';
+import { AdminContent } from '@components/layout/admin/AdminContent';
+import { AdminFooter } from '@components/layout/admin/AdminFooter';
 
 export default function RootLayout({
 	children

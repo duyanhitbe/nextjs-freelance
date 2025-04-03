@@ -1,62 +1,60 @@
 'use client';
-import { AdminTable, AdminTableFilter } from '@app/components';
-import {
-	AdminTableColumn,
-	AdminTableColumnAction,
-	AdminTableColumnCreatedAt,
-	AdminTableColumnStatus,
-	AdminTableColumnUpdatedAt
-} from '@app/components/admin/table/AdminTableColumn';
+import { Table } from '@app/components/shared/table/Table';
 import { TableColumn } from '@app/types';
 import { UserClientService } from '@app/services';
 
 const columns: TableColumn = [
-	AdminTableColumn({
+	Table.Columns.Column({
 		title: 'Tên tài khoản',
 		key: 'username'
 	}),
-	AdminTableColumnCreatedAt(),
-	AdminTableColumnUpdatedAt(),
-	AdminTableColumnStatus(),
-	AdminTableColumnAction()
+	Table.Columns.CreatedAt(),
+	Table.Columns.UpdatedAt(),
+	Table.Columns.Status(),
+	Table.Columns.Action()
 ];
 
 export function UserPage() {
 	return (
-		<AdminTable
+		<Table
 			columns={columns}
 			findAction={UserClientService.find.bind(UserClientService)}
 			findDetailAction={UserClientService.detail.bind(UserClientService)}
 			createAction={UserClientService.create.bind(UserClientService)}
 			updateAction={UserClientService.update.bind(UserClientService)}
 			deleteAction={UserClientService.delete.bind(UserClientService)}>
-			<AdminTable.Section>
-				<AdminTableFilter>
-					<AdminTableFilter.SearchInput
+			<Table.Section>
+				<Table.Filters.Wrapper>
+					<Table.Filters.Search
 						placeholder='Tìm kiếm theo tên tài khoản'
 						tooltip='Tìm kiếm theo tên tài khoản'
 					/>
-					<AdminTableFilter.Select
-						name='user'
-						placeholder='Người dùng'
-						label='Người dùng'
-						promise={() => UserClientService.find({})}
-						valueField='id'
-						labelField='username'
+				</Table.Filters.Wrapper>
+			</Table.Section>
+			<Table.Section>
+				<Table.Buttons.Create />
+				<Table.List />
+				<Table.Modals.Create title='Tạo mới người dùng'>
+					<Table.Forms.Input
+						name='username'
+						placeholder='Tên tài khoản'
+						label='Tên tài khoản'
 					/>
-					<AdminTableFilter.DateRange
-						name='createdAt'
-						label='Ngày tạo'
+					<Table.Forms.Input
+						name='password'
+						placeholder='Mật khẩu'
+						label='Mật khẩu'
 					/>
-				</AdminTableFilter>
-			</AdminTable.Section>
-			<AdminTable.Section>
-				<AdminTable.CreateButton />
-				<AdminTable.Table />
-				<AdminTable.ModalCreate title='Tạo mới người dùng' />
-				<AdminTable.ModalUpdate title='Cập nhật người dùng' />
-				<AdminTable.ModalDelete title='Bạn có chắc muốn xoá dữ liệu này?' />
-			</AdminTable.Section>
-		</AdminTable>
+				</Table.Modals.Create>
+				<Table.Modals.Update title='Cập nhật người dùng'>
+					<Table.Forms.Input
+						name='username'
+						placeholder='Tên tài khoản'
+						label='Tên tài khoản'
+					/>
+				</Table.Modals.Update>
+				<Table.Modals.Delete title='Bạn có chắc muốn xoá dữ liệu này?' />
+			</Table.Section>
+		</Table>
 	);
 }

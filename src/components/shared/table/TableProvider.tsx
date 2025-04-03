@@ -4,7 +4,7 @@ import { BaseFilter, BasePaginatedResponse, BaseResponse, TableColumn } from '@a
 import { message } from 'antd';
 import { get } from 'lodash';
 
-type AdminTableContextType = {
+type TableContextType = {
 	openModalCreate: boolean;
 	setOpenModalCreate: React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -17,14 +17,23 @@ type AdminTableContextType = {
 	filter: BaseFilter;
 	setFilter: React.Dispatch<React.SetStateAction<BaseFilter>>;
 
-	creationData: any;
-	setCreationData: React.Dispatch<React.SetStateAction<any>>;
-
-	updatedData: any;
-	setUpdatedData: React.Dispatch<React.SetStateAction<any>>;
+	formData: any;
+	setFormData: React.Dispatch<React.SetStateAction<any>>;
 
 	selectedItem: any;
 	setSelectedItem: React.Dispatch<React.SetStateAction<any>>;
+
+	loadingTable: boolean;
+	setLoadingTable: React.Dispatch<React.SetStateAction<boolean>>;
+
+	loadingCreate: boolean;
+	setLoadingCreate: React.Dispatch<React.SetStateAction<boolean>>;
+
+	loadingUpdate: boolean;
+	setLoadingUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+
+	loadingDelete: boolean;
+	setLoadingDelete: React.Dispatch<React.SetStateAction<boolean>>;
 
 	handleFetch: () => void;
 	handleReset: () => void;
@@ -35,8 +44,6 @@ type AdminTableContextType = {
 
 	data: BasePaginatedResponse<any> | null;
 	columns: TableColumn;
-
-	loadingTable: boolean;
 };
 
 type ProviderProps = PropsWithChildren<{
@@ -48,7 +55,7 @@ type ProviderProps = PropsWithChildren<{
 	deleteAction: (id: string) => Promise<BaseResponse<any>>;
 }>;
 
-export const AdminTableContext = createContext<AdminTableContextType>({
+export const TableContext = createContext<TableContextType>({
 	openModalCreate: false,
 	setOpenModalCreate: () => {},
 	openModalUpdate: false,
@@ -57,12 +64,18 @@ export const AdminTableContext = createContext<AdminTableContextType>({
 	setOpenModalDelete: () => {},
 	filter: {},
 	setFilter: () => {},
-	creationData: {},
-	setCreationData: () => {},
-	updatedData: {},
-	setUpdatedData: () => {},
+	formData: {},
+	setFormData: () => {},
 	selectedItem: {},
 	setSelectedItem: () => {},
+	loadingTable: false,
+	setLoadingTable: () => {},
+	loadingCreate: false,
+	setLoadingCreate: () => {},
+	loadingUpdate: false,
+	setLoadingUpdate: () => {},
+	loadingDelete: false,
+	setLoadingDelete: () => {},
 	handleFetch: () => {},
 	handleReset: () => {},
 	handleCreate: () => {},
@@ -70,13 +83,12 @@ export const AdminTableContext = createContext<AdminTableContextType>({
 	handleDelete: () => {},
 	handleFetchDetail: (id: string) => {},
 	data: null,
-	columns: [],
-	loadingTable: false
+	columns: []
 });
 
-export const useAdminTableContext = () => useContext(AdminTableContext);
+export const useTableContext = () => useContext(TableContext);
 
-export function AdminTableProvider({
+export function TableProvider({
 	children,
 	columns,
 	findAction,
@@ -90,14 +102,16 @@ export function AdminTableProvider({
 	const [openModalUpdate, setOpenModalUpdate] = useState(false);
 	const [openModalDelete, setOpenModalDelete] = useState(false);
 	const [loadingTable, setLoadingTable] = useState(false);
+	const [loadingCreate, setLoadingCreate] = useState(false);
+	const [loadingUpdate, setLoadingUpdate] = useState(false);
+	const [loadingDelete, setLoadingDelete] = useState(false);
 	const [data, setData] = useState<BasePaginatedResponse<any> | null>(null);
 	const [filter, setFilter] = useState<BaseFilter>({
 		search: '',
 		page: 1,
 		limit: 10
 	});
-	const [creationData, setCreationData] = useState<any>({});
-	const [updatedData, setUpdatedData] = useState<any>({});
+	const [formData, setFormData] = useState<any>({});
 	const [selectedItem, setSelectedItem] = useState<any>({});
 
 	const fetch = async (filter: BaseFilter) => {
@@ -156,9 +170,13 @@ export function AdminTableProvider({
 	};
 
 	const handleCreate = () => {
-		setLoadingTable(true);
-		create(createAction)
-			.then(() => setOpenModalCreate(false))
+		setLoadingCreate(true);
+		create(formData)
+			.then(() => {
+				setLoadingCreate(false);
+				setOpenModalCreate(false);
+				setFormData({});
+			})
 			.finally(() => handleReset());
 	};
 
@@ -180,9 +198,16 @@ export function AdminTableProvider({
 	};
 
 	const handleUpdate = () => {
-		setLoadingTable(true);
-		updateData(selectedItem.id, updatedData)
-			.then(() => setOpenModalUpdate(false))
+		setLoadingUpdate(true);
+		updateData(selectedItem.id, {
+			...selectedItem,
+			...formData
+		})
+			.then(() => {
+				setOpenModalUpdate(false);
+				setLoadingUpdate(false);
+				setFormData({});
+			})
 			.finally(() => handleReset());
 	};
 
@@ -204,9 +229,12 @@ export function AdminTableProvider({
 	};
 
 	const handleDelete = () => {
-		setLoadingTable(true);
+		setLoadingDelete(true);
 		deleteData(selectedItem.id)
-			.then(() => setOpenModalDelete(false))
+			.then(() => {
+				setOpenModalDelete(false);
+				setLoadingDelete(false);
+			})
 			.finally(() => handleReset());
 	};
 
@@ -222,8 +250,18 @@ export function AdminTableProvider({
 		handleFetch();
 	}, []);
 
+	useEffect(() => {
+		setFormData(selectedItem);
+	}, [selectedItem]);
+
+	useEffect(() => {
+		if (!openModalCreate || !openModalUpdate || !openModalDelete) {
+			setFormData({});
+		}
+	}, [openModalCreate, openModalUpdate, openModalDelete]);
+
 	return (
-		<AdminTableContext.Provider
+		<TableContext.Provider
 			value={{
 				openModalCreate,
 				setOpenModalCreate,
@@ -234,11 +272,8 @@ export function AdminTableProvider({
 				openModalDelete,
 				setOpenModalDelete,
 
-				creationData,
-				setCreationData,
-
-				updatedData,
-				setUpdatedData,
+				formData,
+				setFormData,
 
 				selectedItem,
 				setSelectedItem,
@@ -246,10 +281,20 @@ export function AdminTableProvider({
 				filter,
 				setFilter,
 
+				loadingTable,
+				setLoadingTable,
+
+				loadingCreate,
+				setLoadingCreate,
+
+				loadingUpdate,
+				setLoadingUpdate,
+
+				loadingDelete,
+				setLoadingDelete,
+
 				data,
 				columns,
-
-				loadingTable,
 
 				handleFetch,
 				handleReset,
@@ -260,6 +305,6 @@ export function AdminTableProvider({
 			}}>
 			{contextHolder}
 			{children}
-		</AdminTableContext.Provider>
+		</TableContext.Provider>
 	);
 }

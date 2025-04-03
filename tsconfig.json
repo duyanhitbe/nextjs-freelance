@@ -28,6 +28,21 @@
       ],
       "@components/*": [
         "./src/components/*"
+      ],
+      "@constants/*": [
+        "./src/constants/*"
+      ],
+      "@helpers/*": [
+        "./src/helpers/*"
+      ],
+      "@hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@services/*": [
+        "./src/services/*"
+      ],
+      "types/*": [
+        "./src/types/*"
       ]
     }
   },

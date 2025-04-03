@@ -1,4 +1,4 @@
-import { BaseFilter } from '@app/types/base.type';
+import { BaseFilter } from './base.type';
 
 export type User = {
 	id: string;

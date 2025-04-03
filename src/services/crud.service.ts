@@ -1,5 +1,5 @@
-import BaseService from '@app/services/base.service';
-import { BaseFilter, BasePaginatedResponse, BaseResponse } from '@app/types';
+import BaseService from './base.service';
+import { BaseFilter, BasePaginatedResponse, BaseResponse } from 'types/base.type';
 
 abstract class CrudService<T> extends BaseService {
 	abstract CREATE_PATH: string;

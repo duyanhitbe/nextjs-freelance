@@ -1,8 +1,8 @@
 'use client';
 import React, { PropsWithChildren } from 'react';
 import { Breadcrumb, Layout, Typography } from 'antd';
-import { MENU } from '@app/constants';
-import { Menu } from '@app/types';
+import { MENU } from '@constants/menu.constant';
+import { Menu } from 'types/menu.type';
 
 const { Content } = Layout;
 

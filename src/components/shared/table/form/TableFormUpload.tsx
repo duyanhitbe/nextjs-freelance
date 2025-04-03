@@ -2,7 +2,7 @@
 import { Col, Flex, GetProp, Image, Upload, UploadFile, UploadProps } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { PlusOutlined } from '@ant-design/icons';
-import { getFileNameFromUrl } from '@app/helpers';
+import { getFileNameFromUrl } from '@helpers/regex.helper';
 import { useTableContext } from '../TableProvider';
 import { TableFormLabel } from './TableFormLabel';
 
@@ -27,7 +27,7 @@ function getBase64(file: FileType): Promise<string> {
 }
 
 export function TableFormUpload({ name, label, span = 24, multiple, center, required }: Props) {
-	const { formData, setFormData } = useTableContext();
+	const { formData } = useTableContext();
 	const [previewOpen, setPreviewOpen] = useState(false);
 	const [previewImage, setPreviewImage] = useState('');
 	const [images, setImages] = useState<UploadFile<any>[]>([]);
@@ -78,7 +78,7 @@ export function TableFormUpload({ name, label, span = 24, multiple, center, requ
 				];
 			}
 		});
-	}, [formData]);
+	}, [formData, name, multiple]);
 
 	return (
 		<Col
@@ -108,6 +108,7 @@ export function TableFormUpload({ name, label, span = 24, multiple, center, requ
 							afterOpenChange: (visible) => !visible && setPreviewImage('')
 						}}
 						src={previewImage}
+						alt='Preview'
 					/>
 				)}
 			</Flex>

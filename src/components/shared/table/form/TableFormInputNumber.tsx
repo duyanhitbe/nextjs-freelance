@@ -2,7 +2,7 @@ import { Col, Flex, InputNumber } from 'antd';
 import React from 'react';
 import { useTableContext } from '../TableProvider';
 import { TableFormLabel } from './TableFormLabel';
-import { toVndCurrency } from '../../../../helpers';
+import { toVndCurrency } from '@helpers/regex.helper';
 
 type Props = {
 	name: string;

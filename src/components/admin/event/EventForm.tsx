@@ -1,6 +1,6 @@
 import { Table } from '../../shared/table/Table';
-import { EVENT_TYPES } from '../../../constants';
-import { LocationClientService } from '../../../services';
+import { EVENT_TYPES } from '@constants/event.constant';
+import { LocationClientService } from '@services/location.service';
 
 export function EventForm() {
 	return (

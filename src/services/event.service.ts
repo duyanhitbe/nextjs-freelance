@@ -1,6 +1,6 @@
-import CrudService from '@app/services/crud.service';
-import { Event } from '@app/types';
-import { API_PATH } from '@app/constants';
+import CrudService from './crud.service';
+import { Event } from 'types/event.type';
+import { API_PATH } from '@constants/api.constant';
 
 class EventService extends CrudService<Event> {
 	CREATE_PATH = API_PATH.EVENT.CREATE;

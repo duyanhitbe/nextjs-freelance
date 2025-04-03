@@ -1,6 +1,6 @@
 'use client';
 import { Button, Form, Input } from 'antd';
-import { AuthClientService } from '@app/services';
+import { AuthClientService } from '@services/auth.service';
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 

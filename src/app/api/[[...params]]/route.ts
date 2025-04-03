@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { NextRequest, NextResponse } from 'next/server';
 import axios, { AxiosError } from 'axios';
 

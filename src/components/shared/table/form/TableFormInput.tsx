@@ -19,9 +19,7 @@ export function TableFormInput({ name, placeholder, label, span = 24, required }
 	};
 
 	return (
-		<Col
-			span={span}
-			style={{ marginTop: '0.5rem', marginBottom: '0.5rem' }}>
+		<Col span={span}>
 			<Flex
 				vertical
 				gap={5}>

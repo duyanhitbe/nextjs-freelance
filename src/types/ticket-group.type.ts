@@ -1,11 +1,10 @@
 import { BaseFilter } from './base.type';
 
-export type Event = {
+export type TicketGroup = {
 	id: string;
 	createdAt: string;
 	updatedAt: string;
 	status: string;
-	name: string;
 };
 
-export type FilterEvent = BaseFilter & {};
+export type FilterTicketGroup = BaseFilter & {};

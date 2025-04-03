@@ -3,21 +3,27 @@ import moment from 'moment';
 import { Image, Space, Switch } from 'antd';
 import { TableButtonUpdate } from './button/TableButtonUpdate';
 import { TableButtonDelete } from './button/TableButtonDelete';
-import { toVndCurrency } from '../../../helpers';
+import { toVndCurrency } from '@helpers/regex.helper';
 import React, { useState } from 'react';
 
 type TableColumnProps = {
 	title: string;
 	key: string;
 	currency?: boolean;
+	render?: (value: any, record: any, index: number) => React.ReactNode;
 };
 
-export function TableColumn({ title, key, currency }: TableColumnProps) {
+export function TableColumn({ title, key, currency, render }: TableColumnProps) {
+	let renderFn = undefined;
+
+	if (render) renderFn = render;
+	if (currency) renderFn = (_: any, record: any) => toVndCurrency(record[key]);
+
 	return {
 		title,
 		dataIndex: key,
 		key,
-		render: currency ? (_: any, record: any) => toVndCurrency(record[key]) : undefined
+		render: renderFn
 	};
 }
 
@@ -96,6 +102,7 @@ function Preview({ value }: { value: any }) {
 			style={{
 				borderRadius: '6px'
 			}}
+			alt='Preview'
 		/>
 	);
 }

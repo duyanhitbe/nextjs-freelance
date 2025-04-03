@@ -1,7 +1,7 @@
 import '@ant-design/v5-patch-for-react-19';
 import './globals.css';
 import type { Metadata } from 'next';
-import { Providers } from '@app/app/provider';
+import { Providers } from './provider';
 
 export const metadata: Metadata = {
 	title: 'Create Next App',

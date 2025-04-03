@@ -1,6 +1,7 @@
 import BaseService from './base.service';
-import { BasePaginatedResponse, Location } from '../types';
-import { API_PATH } from '../constants';
+import { BasePaginatedResponse } from 'types/base.type';
+import { Location } from 'types/location.type';
+import { API_PATH } from '@constants/api.constant';
 
 class LocationService extends BaseService {
 	async find(): Promise<BasePaginatedResponse<Location>> {

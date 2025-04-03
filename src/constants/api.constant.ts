@@ -16,6 +16,13 @@ export const API_PATH = {
 		UPDATE: (id: string) => `/api/v1/events/${id}`,
 		DELETE: (id: string) => `/api/v1/events/${id}`
 	},
+	TICKET_GROUP: {
+		FIND: '/api/v1/ticket-groups',
+		DETAIL: (id: string) => `/api/v1/ticket-groups/${id}`,
+		CREATE: '/api/v1/ticket-groups',
+		UPDATE: (id: string) => `/api/v1/ticket-groups/${id}`,
+		DELETE: (id: string) => `/api/v1/ticket-groups/${id}`
+	},
 	LOCATION: {
 		FIND: '/api/v1/locations'
 	}

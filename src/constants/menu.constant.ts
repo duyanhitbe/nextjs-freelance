@@ -13,7 +13,7 @@ import {
 	UserOutlined,
 	UserSwitchOutlined
 } from '@ant-design/icons';
-import { Menu } from '@app/types';
+import { Menu } from 'types/menu.type';
 
 export const MENU: Menu[] = [
 	{

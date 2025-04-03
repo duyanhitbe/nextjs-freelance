@@ -1,6 +1,7 @@
 import BaseService from './base.service';
-import { BaseResponse, LoginUserRequest, LoginUserResponse } from '@app/types';
-import { API_PATH } from '@app/constants';
+import { BaseResponse } from 'types/base.type';
+import { LoginUserRequest, LoginUserResponse } from 'types/auth.type';
+import { API_PATH } from '@constants/api.constant';
 
 class AuthService extends BaseService {
 	async loginUser(request: LoginUserRequest): Promise<LoginUserResponse> {

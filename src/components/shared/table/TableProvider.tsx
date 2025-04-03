@@ -1,10 +1,11 @@
 'use client';
 import React, { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
-import { BaseFilter, BasePaginatedResponse, BaseResponse, TableColumn } from '@app/types';
+import { BaseFilter, BasePaginatedResponse, BaseResponse } from 'types/base.type';
+import { TableColumn } from 'types/table.type';
 import { message } from 'antd';
 import { get } from 'lodash';
 
-type TableContextType = {
+type TableContextType<T = any> = {
 	openModalCreate: boolean;
 	setOpenModalCreate: React.Dispatch<React.SetStateAction<boolean>>;
 
@@ -17,8 +18,8 @@ type TableContextType = {
 	filter: BaseFilter;
 	setFilter: React.Dispatch<React.SetStateAction<BaseFilter>>;
 
-	formData: any;
-	setFormData: React.Dispatch<React.SetStateAction<any>>;
+	formData: T;
+	setFormData: React.Dispatch<React.SetStateAction<T>>;
 
 	selectedItem: any;
 	setSelectedItem: React.Dispatch<React.SetStateAction<any>>;
@@ -35,7 +36,7 @@ type TableContextType = {
 	loadingDelete: boolean;
 	setLoadingDelete: React.Dispatch<React.SetStateAction<boolean>>;
 
-	handleFetch: () => void;
+	handleFetch: (newFilter?: BaseFilter) => void;
 	handleReset: () => void;
 	handleCreate: () => void;
 	handleUpdate: () => void;
@@ -81,12 +82,12 @@ export const TableContext = createContext<TableContextType>({
 	handleCreate: () => {},
 	handleUpdate: () => {},
 	handleDelete: () => {},
-	handleFetchDetail: (id: string) => {},
+	handleFetchDetail: () => {},
 	data: null,
 	columns: []
 });
 
-export const useTableContext = () => useContext(TableContext);
+export const useTableContext = <T = any,>(): TableContextType<T> => useContext(TableContext);
 
 export function TableProvider({
 	children,
@@ -128,9 +129,9 @@ export function TableProvider({
 		}
 	};
 
-	const handleFetch = () => {
+	const handleFetch = (newFilter?: BaseFilter) => {
 		setLoadingTable(true);
-		fetch(filter)
+		fetch(newFilter || filter)
 			.then((data) => setData(data))
 			.finally(() => setLoadingTable(false));
 	};

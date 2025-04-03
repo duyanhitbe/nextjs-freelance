@@ -1,7 +1,8 @@
 'use client';
-import { Table } from '@app/components/shared/table/Table';
-import { TableColumn } from '@app/types';
-import { UserClientService } from '@app/services';
+import { Table } from '@components/shared/table/Table';
+import { TableColumn } from 'types/table.type';
+import { UserClientService } from '@services/user.service';
+import { UserForm } from './UserForm';
 
 const columns: TableColumn = [
 	Table.Columns.Column({
@@ -35,23 +36,10 @@ export function UserPage() {
 				<Table.Buttons.Create />
 				<Table.List />
 				<Table.Modals.Create title='Tạo mới người dùng'>
-					<Table.Forms.Input
-						name='username'
-						placeholder='Tên tài khoản'
-						label='Tên tài khoản'
-					/>
-					<Table.Forms.Input
-						name='password'
-						placeholder='Mật khẩu'
-						label='Mật khẩu'
-					/>
+					<UserForm />
 				</Table.Modals.Create>
 				<Table.Modals.Update title='Cập nhật người dùng'>
-					<Table.Forms.Input
-						name='username'
-						placeholder='Tên tài khoản'
-						label='Tên tài khoản'
-					/>
+					<UserForm update />
 				</Table.Modals.Update>
 				<Table.Modals.Delete title='Bạn có chắc muốn xoá dữ liệu này?' />
 			</Table.Section>

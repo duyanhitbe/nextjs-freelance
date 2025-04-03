@@ -1,13 +1,9 @@
 'use client';
 import React, { PropsWithChildren } from 'react';
-import { Space, Table as AntdTable } from 'antd';
+import { Flex, Pagination, Space, Table as AntdTable } from 'antd';
 import { TableProvider, useTableContext } from './TableProvider';
-import {
-	BaseFilter,
-	BasePaginatedResponse,
-	BaseResponse,
-	TableColumn as TableColumnType
-} from '@app/types';
+import { BaseFilter, BasePaginatedResponse, BaseResponse } from 'types/base.type';
+import { TableColumn as TableColumnType } from 'types/table.type';
 import { TableButtonCreate } from './button/TableButtonCreate';
 import { TableButtonDelete } from './button/TableButtonDelete';
 import { TableButtonUpdate } from './button/TableButtonUpdate';
@@ -35,6 +31,8 @@ import { TableModalUpdate } from './modal/TableModalUpdate';
 import { TableModalDelete } from './modal/TableModalDelete';
 import { TableFormEditor } from './form/TableFormEditor';
 import { TableFormRate } from './form/TableFormRate';
+import { TableFormDateRange } from './form/TableFormDateRange';
+import { TableFormDatePicker } from './form/TableFormDatePicker';
 
 type AdminTableProps = PropsWithChildren<{
 	columns: TableColumnType;
@@ -73,23 +71,38 @@ export function Table({
 }
 
 function TableList() {
-	const { data, columns, loadingTable } = useTableContext();
+	const { data, columns, loadingTable, filter, setFilter, handleFetch } = useTableContext();
+
+	const handleChangePagination = (page: number, limit: number) => {
+		setFilter((prev) => ({ ...prev, page, limit }));
+		handleFetch({ ...filter, page, limit });
+	};
 
 	return (
-		<AntdTable
-			rowKey='id'
-			columns={columns}
-			dataSource={data?.data}
-			loading={loadingTable}
-			scroll={{ x: 'max-content' }}
-			pagination={{
-				total: data?.meta?.totalItem,
-				pageSize: data?.meta?.limit,
-				current: data?.meta?.page,
-				defaultPageSize: 10,
-				showSizeChanger: true
-			}}
-		/>
+		<>
+			<AntdTable
+				rowKey='id'
+				columns={columns}
+				dataSource={data?.data}
+				loading={loadingTable}
+				scroll={{ x: 'max-content' }}
+				pagination={false}
+			/>
+			<Flex
+				justify='flex-end'
+				style={{ marginTop: '1rem' }}>
+				<Pagination
+					total={data?.meta?.totalItem}
+					showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+					showSizeChanger
+					defaultPageSize={filter.limit}
+					pageSize={filter.limit}
+					current={filter.page}
+					defaultCurrent={filter.page}
+					onChange={handleChangePagination}
+				/>
+			</Flex>
+		</>
 	);
 }
 
@@ -130,7 +143,9 @@ Table.Forms = {
 	Select: TableFormSelect,
 	Upload: TableFormUpload,
 	Editor: TableFormEditor,
-	Rate: TableFormRate
+	Rate: TableFormRate,
+	DateRange: TableFormDateRange,
+	DatePicker: TableFormDatePicker
 };
 
 Table.Modals = {

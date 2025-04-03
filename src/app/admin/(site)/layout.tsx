@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Layout } from 'antd';
 
-import { useAdminPage } from '@app/hooks';
+import { useAdminPage } from '@hooks/useAdminPage';
 import { AdminSider } from '@components/layout/admin/AdminSider';
 import { AdminHeader } from '@components/layout/admin/AdminHeader';
 import { AdminContent } from '@components/layout/admin/AdminContent';

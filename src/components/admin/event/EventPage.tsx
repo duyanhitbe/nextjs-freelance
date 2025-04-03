@@ -1,10 +1,10 @@
 'use client';
 
-import { TableColumn } from '@app/types';
-import { EventClientService } from '@app/services';
+import { TableColumn } from 'types/table.type';
+import { EventClientService } from '@services/event.service';
 import { Table } from '../../shared/table/Table';
 import { EventForm } from './EventForm';
-import { EVENT_TYPES } from '../../../constants';
+import { EVENT_TYPES } from '@constants/event.constant';
 
 const columns: TableColumn = [
 	Table.Columns.Column({

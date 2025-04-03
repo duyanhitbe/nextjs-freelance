@@ -2,9 +2,9 @@
 import React, { useState } from 'react';
 import { Flex, Layout, Menu, Typography } from 'antd';
 import { useRouter } from 'next/navigation';
-import { MENU } from '@app/constants';
-import { useAdminPage } from '@app/hooks';
-import { Menu as MenuType } from '@app/types';
+import { MENU } from '@constants/menu.constant';
+import { useAdminPage } from '@hooks/useAdminPage';
+import { Menu as MenuType } from 'types/menu.type';
 
 const { Sider } = Layout;
 

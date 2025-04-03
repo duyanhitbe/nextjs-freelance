@@ -1,6 +1,6 @@
-import CrudService from '@app/services/crud.service';
-import { User } from '@app/types';
-import { API_PATH } from '@app/constants';
+import CrudService from './crud.service';
+import { User } from 'types/user.type';
+import { API_PATH } from '@constants/api.constant';
 
 class UserService extends CrudService<User> {
 	CREATE_PATH = API_PATH.USER.CREATE;
